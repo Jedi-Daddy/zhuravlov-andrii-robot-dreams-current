@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,9 +80,15 @@ public class Lection3Controller : MonoBehaviour
     [ContextMenu("Sort and Print List Descending")]
     public void SortAndPrintListDescending()
     {
-        items.Sort();
-        items.Reverse();
+        items.Sort(Comparison);
+        //items.Reverse(); // old version
         Debug.Log("List sorted in descending order:\n" + string.Join("\n", items));
+    }
+
+    // New way to reverse sort
+    private int Comparison(string x, string y)
+    {
+        return String.Compare(y, x, StringComparison.Ordinal);
     }
 
     // Print only numbers
@@ -98,6 +105,7 @@ public class Lection3Controller : MonoBehaviour
             Debug.Log("Numeric values in the list:\n" + string.Join("\n", numericValues));
         }
     }
+
     // Print only symbols
     [ContextMenu("Print Only Alphabetic Values")]
     public void PrintAlphabeticValues()
@@ -112,6 +120,7 @@ public class Lection3Controller : MonoBehaviour
             Debug.Log("Alphabetic values in the list:\n" + string.Join("\n", alphabeticValues));
         }
     }
+
     // Shuffle list
     [ContextMenu("Shuffle List")]
     public void ShuffleList()
@@ -127,6 +136,7 @@ public class Lection3Controller : MonoBehaviour
         }
         Debug.Log("List shuffled:\n" + string.Join("\n", items));
     }
+
     // Count all elements in list
     [ContextMenu("Count List Elements")]
     public void CountListElements()
@@ -151,6 +161,7 @@ public class Lection3Controller : MonoBehaviour
             Debug.Log("List is empty. Nothing to remove.");
         }
     }
+
     // Find element in list and show his index
     [ContextMenu("Find Element")]
     public void FindElement()
