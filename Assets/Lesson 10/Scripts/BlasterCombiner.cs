@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class BlasterCombiner : MonoBehaviour
 {
+    private Mesh _mesh;
+
     void Start()
     {
         CombineMeshes();
@@ -26,7 +28,7 @@ public class BlasterCombiner : MonoBehaviour
         }
 
         Mesh combinedMesh = new Mesh();
-        combinedMesh.CombineMeshes(combine.ToArray(), false); // false - save submeshes
+        combinedMesh.CombineMeshes(combine.ToArray(), false); // false - save submeshes, true - delete
 
         // Check MeshFilter and MeshRenderer maybe it's added
         MeshFilter mfMain = GetComponent<MeshFilter>();
