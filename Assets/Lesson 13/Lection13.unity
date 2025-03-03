@@ -5019,7 +5019,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 283506493}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5035,7 +5035,7 @@ Transform:
   m_GameObject: {fileID: 283506492}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7125041, z: -0, w: 0.701668}
-  m_LocalPosition: {x: 2.393, y: 0.28, z: 0.116}
+  m_LocalPosition: {x: 2.36, y: 0.28, z: -0.02}
   m_LocalScale: {x: 6.6666646, y: 6.6666665, z: 6.6666646}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41347,7 +41347,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6396220181036518072}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41366,7 +41366,7 @@ GameObject:
   - component: {fileID: 1323460183912315123}
   - component: {fileID: 9018761259897559136}
   - component: {fileID: 3135056488142992050}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -41423,7 +41423,7 @@ GameObject:
   - component: {fileID: 1989207438559109294}
   - component: {fileID: 8292429812720586197}
   - component: {fileID: 5726913893304613395}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41575,7 +41575,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6889086466939607927}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: CameraAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41834,7 +41834,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5922534936420108649}
-  m_Layer: 6
+  - component: {fileID: 5922534936420108650}
+  m_Layer: 0
   m_Name: WeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41885,7 +41886,7 @@ GameObject:
   - component: {fileID: 7910659831174307710}
   - component: {fileID: 107913157029989826}
   - component: {fileID: 3232926230982128216}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41929,6 +41930,28 @@ Transform:
   - {fileID: 6396220181036518072}
   m_Father: {fileID: 3690661478302099337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5922534936420108650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5118566391063578221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae0e2bc76cd11d43b8aa4beefd44bb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePoint: {fileID: 283506493}
+  bulletPrefab: {fileID: 7589038946444984948, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+    type: 3}
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  bulletSpeed: 20
+  maxRange: 100
+  explosionRadius: 2
+  explosionForce: 500
 --- !u!4 &6396220181036518072
 Transform:
   m_ObjectHideFlags: 0
@@ -42066,7 +42089,7 @@ GameObject:
   - component: {fileID: 1100764346395148517}
   - component: {fileID: 648748089359645344}
   - component: {fileID: 4649553845358096798}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42087,8 +42110,7 @@ GameObject:
   - component: {fileID: 8037436173145767691}
   - component: {fileID: 9076782854027605678}
   - component: {fileID: 4875542895329068962}
-  - component: {fileID: 9076782854027605679}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Player3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42107,7 +42129,7 @@ GameObject:
   - component: {fileID: 6952187605985569890}
   - component: {fileID: 4447194444481339722}
   - component: {fileID: 230897999418849708}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42148,18 +42170,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9076782854027605679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8457955914311702340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99a73f52ffc5f474bbf2634b73e98bbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9157260571491841655
 GameObject:
   m_ObjectHideFlags: 0
@@ -42170,7 +42180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2262836426466465812}
   - component: {fileID: 3745547441349379230}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}

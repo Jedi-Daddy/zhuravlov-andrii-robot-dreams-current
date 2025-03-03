@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet1 : MonoBehaviour
 {
     public float speed = 20f; // Скорость полёта пули
     public float damageAmount = 25f; // Урон
