@@ -1,49 +1,37 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ExplosionController : MonoBehaviour
 {
+    public Camera playerCamera;
     public float explosionRadius = 5f;
     public float explosionForce = 700f;
-    public GameObject explosionEffect;
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetButtonDown("Fire2")) 
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Vector3 explosionPoint = GetExplosionPoint();
-            CreateExplosion(explosionPoint);
+            CreateExplosion();
         }
     }
 
-    Vector3 GetExplosionPoint()
+    void CreateExplosion()
     {
-        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100f))
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            return hit.point;
-        }
-        return transform.position + transform.forward * 10f;
-    }
+            Vector3 explosionPoint = hit.point;
+            Collider[] colliders = Physics.OverlapSphere(explosionPoint, explosionRadius);
 
-    void CreateExplosion(Vector3 position)
-    {
-        if (explosionEffect)
-        {
-            Instantiate(explosionEffect, position, Quaternion.identity);
-        }
-
-        Collider[] colliders = Physics.OverlapSphere(position, explosionRadius);
-
-        foreach (Collider hit in colliders)
-        {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if (rb != null)
+            foreach (Collider nearbyObject in colliders)
             {
-                float distance = Vector3.Distance(position, rb.position);
-                float force = explosionForce * (1 - (distance / explosionRadius));
-                rb.AddExplosionForce(force, position, explosionRadius, 1f, ForceMode.Impulse);
+                Rigidbody rb = nearbyObject.attachedRigidbody;
+                if (rb != null)
+                {
+                    float distance = Vector3.Distance(explosionPoint, rb.position);
+                    float forceMultiplier = 1 - (distance / explosionRadius);
+                    rb.AddExplosionForce(explosionForce * forceMultiplier, explosionPoint, explosionRadius);
+                }
             }
         }
     }
