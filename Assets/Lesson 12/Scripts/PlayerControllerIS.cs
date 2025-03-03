@@ -43,6 +43,8 @@ public class PlayerControllerIS : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         jumpAction = playerInput.actions["Jump"];
         shootAction = playerInput.actions["Shoot"];
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnEnable()
@@ -69,7 +71,7 @@ public class PlayerControllerIS : MonoBehaviour
         else
         {
             bulletController.target = cameraTransform.position + cameraTransform.forward * bulletHitMissDistance;
-            bulletController.hit = true;
+            bulletController.hit = false;
         }
     }
 
