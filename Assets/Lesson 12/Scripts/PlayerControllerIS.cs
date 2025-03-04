@@ -21,6 +21,17 @@ public class PlayerControllerIS : MonoBehaviour
     private Transform bulletParent;
     [SerializeField]
     private float bulletHitMissDistance = 25f;
+    [SerializeField]
+    private int curAttackerId;
+
+    public int curHp;
+    public int MaxHp;
+    public int kills;
+    public bool dead;
+
+    private bool flashingDamage;
+
+    public MeshRenderer mr;
 
 
     private CharacterController controller;
@@ -103,4 +114,7 @@ public class PlayerControllerIS : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed*Time.deltaTime);
     }
+
+    
+
 }
