@@ -109,6 +109,8 @@ namespace StarterAssets
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
+        public GameObject arrowObject;
+        public Transform arrowPoint;
 
         private bool IsCurrentDeviceMouse
         {
@@ -178,7 +180,8 @@ namespace StarterAssets
 
         public void Shoot()
         {
-           
+            GameObject arrow = Instantiate(arrowObject, arrowPoint.position, transform.rotation);
+            arrow.GetComponent<Rigidbody>().AddForce(transform.forward *15f, ForceMode.Impulse);
         }
 
         private void LateUpdate()
