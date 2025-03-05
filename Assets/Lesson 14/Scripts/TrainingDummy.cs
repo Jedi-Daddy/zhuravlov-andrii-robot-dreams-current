@@ -13,10 +13,10 @@ namespace Dummies
 
         private void Start()
         {
-            if (_health == null)  // Проверка на null
+            if (_health == null)  
             {
                 Debug.LogError("Health component is not assigned on " + gameObject.name);
-                return;  // Если _health не назначен, прекращаем выполнение
+                return; 
             }
 
             _regenerationDelay = new WaitForSeconds(_regenerationDelayTime);

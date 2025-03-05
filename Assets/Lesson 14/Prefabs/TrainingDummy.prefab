@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2099135547590836334}
   - component: {fileID: 5105329983230779735}
+  - component: {fileID: 6507528932026192799}
   m_Layer: 0
   m_Name: HealthIndicator
   m_TagString: Untagged
@@ -55,6 +56,18 @@ MonoBehaviour:
   _regenerationSpeed: 5
   _billboard: {fileID: 0}
   playerCamera: {fileID: 0}
+--- !u!114 &6507528932026192799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419513525433109992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172ace22f968d2d4098aeeea19b582a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2456238822934268247
 GameObject:
   m_ObjectHideFlags: 0

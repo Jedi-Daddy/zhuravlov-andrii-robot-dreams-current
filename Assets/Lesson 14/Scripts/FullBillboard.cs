@@ -11,7 +11,7 @@ public class BillboardBase : MonoBehaviour
 
     private void Update()
     {
-        // Здесь код для поворота объекта всегда к камере
+        
         if (mainCamera != null)
         {
             transform.LookAt(transform.position + mainCamera.transform.forward);
