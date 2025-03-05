@@ -31,7 +31,16 @@ public class BulletController : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         ContactPoint contact = other.GetContact(0);
-        GameObject.Instantiate(bulletDecal, contact.point + contact.normal * .0001f, Quaternion.LookRotation(contact.normal));
+        Instantiate(bulletDecal, contact.point + contact.normal * 0.0001f, Quaternion.LookRotation(contact.normal));
+
+        // Проверяем, попали ли во врага
+        EnemyController enemy = other.gameObject.GetComponent<EnemyController>();
+        if (enemy != null)
+        {
+            enemy.TakeDamage(10); // Наносим урон
+            Debug.Log("Попали во врага: " + other.gameObject.name);
+        }
+
         Destroy(gameObject);
     }
 }
