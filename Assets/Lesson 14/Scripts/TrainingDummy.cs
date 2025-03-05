@@ -23,6 +23,8 @@ namespace Dummies
             _health.OnDeath += DeathHandler;
         }
 
+
+
         private void DeathHandler()
         {
             StartCoroutine(RegenerationRoutine());
