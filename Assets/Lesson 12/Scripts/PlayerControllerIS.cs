@@ -21,6 +21,8 @@ public class PlayerControllerIS : MonoBehaviour
     private Transform bulletParent;
     [SerializeField]
     private float bulletHitMissDistance = 25f;
+    [SerializeField]
+    private GameObject muzzleFlash;
 
     public int curHp = 100; 
     public int maxHp = 100; 
@@ -75,6 +77,15 @@ public class PlayerControllerIS : MonoBehaviour
 
     private void ShootGun()
     {
+
+        if (muzzleFlash != null)
+        {
+            GameObject flash = Instantiate(muzzleFlash, barrelEndTransform.position, barrelEndTransform.rotation);
+            flash.transform.SetParent(barrelEndTransform);
+            flash.transform.rotation = Quaternion.LookRotation(barrelEndTransform.forward);
+            Destroy(flash, 1f);
+        }
+
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelEndTransform.position, Quaternion.identity, bulletParent);
         BulletController bulletController = bullet.GetComponent<BulletController>();
