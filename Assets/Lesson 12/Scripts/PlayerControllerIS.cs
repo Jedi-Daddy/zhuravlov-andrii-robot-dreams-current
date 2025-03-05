@@ -83,7 +83,7 @@ public class PlayerControllerIS : MonoBehaviour
             GameObject flash = Instantiate(muzzleFlash, barrelEndTransform.position, barrelEndTransform.rotation);
             flash.transform.SetParent(barrelEndTransform);
             flash.transform.rotation = Quaternion.LookRotation(barrelEndTransform.forward);
-            Destroy(flash, 1f);
+            Destroy(flash, 0.25f);
         }
 
         RaycastHit hit;

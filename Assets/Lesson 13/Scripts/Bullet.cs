@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float lifeTime = 5f;  // Время жизни
-    public float damage = 10f;   // Урон
+    public float lifeTime = 5f;  
+    public float damage = 10f;   
 
     void Start()
     {
@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Пуля попала в: " + collision.collider.name);
+        Debug.Log("Attack: " + collision.collider.name);
         Destroy(gameObject);
     }
 }
