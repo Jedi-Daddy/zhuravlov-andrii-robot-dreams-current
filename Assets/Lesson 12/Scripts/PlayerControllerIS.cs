@@ -1,9 +1,9 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerControllerIS : MonoBehaviour
-
 {
     [SerializeField]
     private float playerSpeed = 2.0f;
@@ -21,18 +21,15 @@ public class PlayerControllerIS : MonoBehaviour
     private Transform bulletParent;
     [SerializeField]
     private float bulletHitMissDistance = 25f;
-    [SerializeField]
-    private int curAttackerId;
 
-    public int curHp;
-    public int MaxHp;
-    public int kills;
-    public bool dead;
+    public int curHp = 100; 
+    public int maxHp = 100; 
+    // public int kills;
+    // public bool dead;
 
     private bool flashingDamage;
 
     public MeshRenderer mr;
-
 
     private CharacterController controller;
     private PlayerInput playerInput;
@@ -45,18 +42,19 @@ public class PlayerControllerIS : MonoBehaviour
     private InputAction jumpAction;
     private InputAction shootAction;
 
-
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
-        cameraTransform = Camera.main.transform;
         moveAction = playerInput.actions["Move"];
         jumpAction = playerInput.actions["Jump"];
         shootAction = playerInput.actions["Shoot"];
 
+        cameraTransform = Camera.main.transform;
+
         Cursor.lockState = CursorLockMode.Locked;
     }
+
 
     private void OnEnable()
     {
@@ -65,7 +63,14 @@ public class PlayerControllerIS : MonoBehaviour
 
     private void OnDisable()
     {
-        shootAction.performed -= _ => ShootGun();
+        if (shootAction != null)
+        {
+            shootAction.performed -= _ => ShootGun();
+        }
+        else
+        {
+            Debug.LogError("Shoot action is null in OnDisable.");
+        }
     }
 
     private void ShootGun()
@@ -73,16 +78,11 @@ public class PlayerControllerIS : MonoBehaviour
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelEndTransform.position, Quaternion.identity, bulletParent);
         BulletController bulletController = bullet.GetComponent<BulletController>();
-        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
 
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
             bulletController.target = hit.point;
             bulletController.hit = true;
-        }
-        else
-        {
-            bulletController.target = cameraTransform.position + cameraTransform.forward * bulletHitMissDistance;
-            bulletController.hit = false;
         }
     }
 
@@ -100,8 +100,6 @@ public class PlayerControllerIS : MonoBehaviour
         move.y = 0f;
         controller.Move(move * Time.deltaTime * playerSpeed);
 
-       
-
         // Makes the player jump
         if (jumpAction.triggered && groundedPlayer)
         {
@@ -112,9 +110,6 @@ public class PlayerControllerIS : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime);
 
         Quaternion targetRotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed*Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
-
-    
-
 }
