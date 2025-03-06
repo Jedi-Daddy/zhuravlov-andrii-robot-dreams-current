@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6499203959743041604}
   - component: {fileID: 5233790475770140693}
   - component: {fileID: -2565135313464947645}
+  - component: {fileID: 7822012711135829072}
   m_Layer: 7
   m_Name: Bullet
   m_TagString: Bullet
@@ -121,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletDecal: {fileID: 7274409290925267140, guid: 6a810ad889be2aa4bab8618bd8a4ff2f,
     type: 3}
-  _damage: 10
+  _damage: 20
 --- !u!54 &-2565135313464947645
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -149,3 +150,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7822012711135829072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682504030312119230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7089c4c232bd79a4ea09c65b324c3d0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 5
+  damageAmount: 20

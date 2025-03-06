@@ -3,26 +3,21 @@ using UnityEngine.UI;
 
 public class Bullet : MonoBehaviour
 {
-    public float lifeTime = 5f;  
-    public int damage = 10;   
+    public float lifeTime = 5f;
+    public int damageAmount = 20;
 
-    void Start()
+    private void Star()
     {
-        Destroy(gameObject, lifeTime);
+        Destroy(gameObject, 10);
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        Destroy(transform.GetComponent<Rigidbody>());
+        if (other.tag == "Dragon")
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                int damage = 10;
-                enemy.TakeDamage(damage);
-            }
+            transform.parent = other.transform;
+            other.GetComponent<Dragon>().TakeDamage(damageAmount);
         }
-        Debug.Log("Attack: " + collision.collider.name);
-        Destroy(gameObject);
     }
 }

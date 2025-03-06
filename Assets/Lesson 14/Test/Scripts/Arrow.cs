@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
+    public int damageAmount = 20;
+
     private void Star()
     {
         Destroy(gameObject, 10);
@@ -12,5 +14,10 @@ public class Arrow : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Destroy(transform.GetComponent<Rigidbody>());
+        if(other.tag == "Dragon")
+        {
+            transform.parent = other.transform;
+            other.GetComponent<Dragon>().TakeDamage(damageAmount);
+        }
     }
 }
