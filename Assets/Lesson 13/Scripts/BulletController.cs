@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject bulletDecal;
+    [SerializeField] private GameObject bulletDecal;
+    [SerializeField] private int _damage = 10; 
 
     private float speed = 30f;
     private float timeToDestroy = 3f;
 
-    public Vector3 target {  get; set; }
-    public bool hit {  get; set; }
+    public Vector3 target { get; set; }
+    public bool hit { get; set; }
 
     private void OnEnable()
     {
         Destroy(gameObject, timeToDestroy);
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        if(!hit && Vector3.Distance(transform.position, target) < .01f)
+        if (!hit && Vector3.Distance(transform.position, target) < 0.01f)
         {
             Destroy(gameObject);
         }
@@ -33,12 +32,13 @@ public class BulletController : MonoBehaviour
         ContactPoint contact = other.GetContact(0);
         Instantiate(bulletDecal, contact.point + contact.normal * 0.0001f, Quaternion.LookRotation(contact.normal));
 
-        
+        Debug.Log($"Hit something: {other.gameObject.name}");
+
         EnemyController enemy = other.gameObject.GetComponent<EnemyController>();
         if (enemy != null)
         {
-            enemy.TakeDamage(10); 
-            Debug.Log("Hit: " + other.gameObject.name);
+            enemy.TakeDamage(_damage); // Теперь _damage существует
+            Debug.Log($"Hit enemy {enemy.gameObject.name}");
         }
 
         Destroy(gameObject);

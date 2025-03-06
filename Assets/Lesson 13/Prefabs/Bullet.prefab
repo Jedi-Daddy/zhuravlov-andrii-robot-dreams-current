@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1188203034485775752}
   - component: {fileID: 6499203959743041604}
   - component: {fileID: 5233790475770140693}
+  - component: {fileID: -2565135313464947645}
   m_Layer: 7
   m_Name: Bullet
   m_TagString: Bullet
@@ -120,3 +121,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletDecal: {fileID: 7274409290925267140, guid: 6a810ad889be2aa4bab8618bd8a4ff2f,
     type: 3}
+  _damage: 10
+--- !u!54 &-2565135313464947645
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682504030312119230}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
