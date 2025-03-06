@@ -7,6 +7,8 @@ TagManager:
   - Bullet
   - Ground
   - Enemy
+  - CinemachineTarget
+  - WayPoints
   layers:
   - Default
   - TransparentFX
