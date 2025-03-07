@@ -20,8 +20,6 @@ public class PlayerControllerIS : MonoBehaviour
     [SerializeField]
     private Transform bulletParent;
     [SerializeField]
-    private float bulletHitMissDistance = 25f;
-    [SerializeField]
     private GameObject muzzleFlash;
 
     public int curHp = 100; 

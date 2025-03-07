@@ -2185,6 +2185,11 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4014065793026255597, guid: edd34a89cfe571f4ca766dcca2459bbe,
+        type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1033491071}
     - target: {fileID: 6196074331382159773, guid: edd34a89cfe571f4ca766dcca2459bbe,
         type: 3}
       propertyPath: m_Value
@@ -2193,7 +2198,7 @@ PrefabInstance:
     - target: {fileID: 6196074331382159773, guid: edd34a89cfe571f4ca766dcca2459bbe,
         type: 3}
       propertyPath: m_Direction
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6214416365150235015, guid: edd34a89cfe571f4ca766dcca2459bbe,
         type: 3}
@@ -2213,7 +2218,7 @@ PrefabInstance:
     - target: {fileID: 7592714098636809631, guid: edd34a89cfe571f4ca766dcca2459bbe,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -5
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
