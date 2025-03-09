@@ -34,6 +34,7 @@ public class GameController : MonoBehaviour
 
     private void OnEscapePressed(InputAction.CallbackContext context)
     {
+        Cursor.lockState = CursorLockMode.None;
         // Когда нажата клавиша Escape, загружаем главную сцену
         SceneManager.LoadScene("MenuLection16");
         ResetGameState(); // Сбрасываем состояние игры
