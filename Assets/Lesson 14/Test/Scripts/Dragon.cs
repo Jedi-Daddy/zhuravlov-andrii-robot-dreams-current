@@ -9,23 +9,25 @@ public class Dragon : MonoBehaviour
 
     void UpdateHealthBar()
     {
-        HealthBarFill.fillAmount = Mathf.Clamp01(HP / 100f);
+        // Convert HP to a normalized value between 0 and 1 for display on the HealthBar
+        HealthBarFill.fillAmount = Mathf.Clamp01(HP / 100f);  // 100 is the dragon's maximum health
     }
 
     public void TakeDamage(int damageAmount)
     {
+        // Reduce HP by transferred damage
         HP -= damageAmount;
-        HP = Mathf.Max(HP, 0); // So that it doesn't go into the minus
+        HP = Mathf.Max(HP, 0); // Limit health to a minimum value of 0
         UpdateHealthBar();
 
         if (HP <= 0)
         {
-            animator.SetTrigger("Die");
-            GetComponent<Collider>().enabled = false;
+            animator.SetTrigger("Die");  // Death animation
+            GetComponent<Collider>().enabled = false;  // Disable the collider
         }
         else
         {
-            animator.SetTrigger("Damage");
+            animator.SetTrigger("Damage");  // Animation of receiving damage
         }
     }
 }
