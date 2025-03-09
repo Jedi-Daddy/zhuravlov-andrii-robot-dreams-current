@@ -11,17 +11,25 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, lifeTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        Destroy(transform.GetComponent<Rigidbody>());
+        Dragon dragon = other.GetComponent<Dragon>();
 
-        if (other.CompareTag("Dragon")) 
+        if (dragon != null)
         {
-            transform.parent = other.transform;
-            other.GetComponent<Dragon>().TakeDamage(damageAmount);
+            dragon.TakeDamage(damageAmount);
 
-            
-            ScoreManager.instance.AddScore(scorePerHit);
+            // Add points for hitting
+            ScoreManager.Instance.AddScore(scorePerHit);
+
+            Debug.Log($"Hit! Added {scorePerHit} points. Current score: {ScoreManager.Instance.score}");
         }
+        else
+        {
+            Debug.LogWarning("The bullet hit the object without Dragon: " + other.gameObject.name);
+        }
+
+        // Removing the bullet after impact
+        Destroy(gameObject);
     }
 }
