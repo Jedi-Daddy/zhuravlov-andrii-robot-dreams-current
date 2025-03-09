@@ -1,21 +1,42 @@
 using UnityEngine;
+using UnityEngine.InputSystem; // Нужно подключить для работы с новым Input System
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    void Update()
+    private PlayerInput playerInput; // Для обработки ввода через InputSystem
+
+    void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            // Load the main scene (menu)
-            SceneManager.LoadScene("MenuLection16"); 
-        }
+        playerInput = GetComponent<PlayerInput>(); // Получаем доступ к компоненту PlayerInput
     }
-    public void ResetGameState()
+
+    void OnEnable()
     {
-        // Сброс всех глобальных переменных
+        // Подключаем метод для обработки нажатия клавиши Escape
+        playerInput.actions["Escape"].started += OnEscapePressed; 
+    }
+
+    void OnDisable()
+    {
+        // Отсоединяем обработчик, чтобы избежать утечек памяти
+        playerInput.actions["Escape"].started -= OnEscapePressed;
+    }
+
+    private void ResetGameState()
+    {
+        // Пример сброса всех глобальных переменных
         // Например: Score = 0;
         // Если используешь какие-то данные в PlayerPrefs — очищай их
         PlayerPrefs.DeleteAll();
     }
+
+
+    private void OnEscapePressed(InputAction.CallbackContext context)
+    {
+        // Когда нажата клавиша Escape, загружаем главную сцену
+        SceneManager.LoadScene("MenuLection16");
+        ResetGameState(); // Сбрасываем состояние игры
+    }
+
 }
