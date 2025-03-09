@@ -6,11 +6,12 @@ public class Dragon : MonoBehaviour
     private int HP = 100;
     public Image HealthBarFill; // Image displaying HP
     public Animator animator;
+    private int MaxHP = 100;
 
     void UpdateHealthBar()
     {
         // Convert HP to a normalized value between 0 and 1 for display on the HealthBar
-        HealthBarFill.fillAmount = Mathf.Clamp01(HP / 100f);  // 100 is the dragon's maximum health
+        HealthBarFill.fillAmount = Mathf.Clamp01(HP / (float)MaxHP);  
     }
 
     public void TakeDamage(int damageAmount)
