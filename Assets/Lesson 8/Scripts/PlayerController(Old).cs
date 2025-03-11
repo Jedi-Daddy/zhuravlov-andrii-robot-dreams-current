@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerOld : MonoBehaviour
 {
     [Header("Info")]
     public int id;
