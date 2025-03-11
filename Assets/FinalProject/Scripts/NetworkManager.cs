@@ -25,7 +25,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster ()
     {
-        PhotonNetwork.JoinLobby();
+        Debug.Log("We've connected to the master server");
+        CreateRoom("Test Room");
+        //PhotonNetwork.JoinLobby();
+    }
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("joined room " + PhotonNetwork.CurrentRoom.Name);
     }
 
     // creates a new room of the requested room name
@@ -36,8 +42,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.CreateRoom(roomName, options);
     }
-    
-    // joins a room of the requested room name
+
+    /* // joins a room of the requested room name
     public void JoinRoom (string roomName)
     {
         PhotonNetwork.JoinRoom(roomName);
@@ -55,7 +61,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LoadLevel("Menu");
     }
-
+    */
     /*public override void OnPlayerLeftRoom (Player otherPlayer)
     {
         GameManager.instance.alivePlayers--;
