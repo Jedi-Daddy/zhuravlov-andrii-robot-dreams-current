@@ -18,17 +18,16 @@ public class PlayerController : MonoBehaviourPun
     public int kills;
     public bool dead;
 
-    //private bool flashingDamage;
+    private bool flashingDamage;
 
-     [Header("Components")]
-     public Rigidbody rig;
-     public Player photonPlayer;
-     //public PlayerWeapon weapon;
-     public MeshRenderer mr;
-    
-    /* 
+    [Header("Components")]
+    public Rigidbody rig;
+    public Player photonPlayer;
+    public PlayerWeapon weapon;
+    public MeshRenderer mr;
+
     [PunRPC]
-    public void Initialize(Player player)
+    public void Initialize (Player player)
     {
         id = player.ActorNumber;
         photonPlayer = player;
@@ -36,7 +35,7 @@ public class PlayerController : MonoBehaviourPun
         GameManager.instance.players[id - 1] = this;
 
         // is this not our local player?
-        if (!photonView.IsMine)
+        if(!photonView.IsMine)
         {
             GetComponentInChildren<Camera>().gameObject.SetActive(false);
             rig.isKinematic = true;
@@ -45,24 +44,24 @@ public class PlayerController : MonoBehaviourPun
         {
             GameUI.instance.Initialize(this);
         }
-    }*/
+    }
 
-    void Update()
+    void Update ()
     {
         // if this isn't our local player or we're dead - return
-        if (!photonView.IsMine || dead)
+        if(!photonView.IsMine || dead)
             return;
 
         Move();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space))
             TryJump();
 
-       // if (Input.GetMouseButtonDown(0))
-         //   weapon.TryShoot();
+        if(Input.GetMouseButtonDown(0))
+            weapon.TryShoot();
     }
 
-    void Move()
+    void Move ()
     {
         // get the input axis
         float x = Input.GetAxis("Horizontal");
@@ -76,20 +75,20 @@ public class PlayerController : MonoBehaviourPun
         rig.velocity = dir;
     }
 
-    void TryJump()
+    void TryJump ()
     {
         // create a ray facing down
         Ray ray = new Ray(transform.position, Vector3.down);
 
         // shoot the raycast
-        if (Physics.Raycast(ray, 1.5f))
+        if(Physics.Raycast(ray, 1.5f))
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    /*[PunRPC]
-    public void TakeDamage(int attackerId, int damage)
+    [PunRPC]
+    public void TakeDamage (int attackerId, int damage)
     {
-        if (dead)
+        if(dead)
             return;
 
         curHp -= damage;
@@ -102,19 +101,19 @@ public class PlayerController : MonoBehaviourPun
         GameUI.instance.UpdateHealthBar();
 
         //die if no health left
-        if (curHp <= 0)
+        if(curHp <= 0)
             photonView.RPC("Die", RpcTarget.All);
     }
 
     [PunRPC]
-    void DamageFlash()
+    void DamageFlash ()
     {
-        if (flashingDamage)
+        if(flashingDamage)
             return;
 
         StartCoroutine(DamageFlashCoRoutine());
 
-        IEnumerator DamageFlashCoRoutine()
+        IEnumerator DamageFlashCoRoutine ()
         {
             flashingDamage = true;
 
@@ -129,7 +128,7 @@ public class PlayerController : MonoBehaviourPun
     }
 
     [PunRPC]
-    void Die()
+    void Die ()
     {
         curHp = 0;
         dead = true;
@@ -137,13 +136,13 @@ public class PlayerController : MonoBehaviourPun
         GameManager.instance.alivePlayers--;
 
         // host will check the win condition
-        if (PhotonNetwork.IsMasterClient)
+        if(PhotonNetwork.IsMasterClient)
             GameManager.instance.CheckWinCondition();
 
         // is this our local player?
-        if (photonView.IsMine)
+        if(photonView.IsMine)
         {
-            if (curAttackerId != 0)
+            if(curAttackerId != 0)
                 GameManager.instance.GetPlayer(curAttackerId).photonView.RPC("AddKill", RpcTarget.All);
 
             // set the cam to spectator
@@ -156,7 +155,7 @@ public class PlayerController : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void AddKill()
+    public void AddKill ()
     {
         kills++;
 
@@ -165,11 +164,11 @@ public class PlayerController : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void Heal(int amountToHeal)
+    public void Heal (int amountToHeal)
     {
         curHp = Mathf.Clamp(curHp + amountToHeal, 0, maxHp);
 
         // update the health bar UI
         GameUI.instance.UpdateHealthBar();
-    }*/
+    }
 }
