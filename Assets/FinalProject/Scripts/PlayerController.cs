@@ -18,14 +18,15 @@ public class PlayerController : MonoBehaviourPun
     public int kills;
     public bool dead;
 
-    private bool flashingDamage;
+    //private bool flashingDamage;
 
-    [Header("Components")]
-    public Rigidbody rig;
-    public Player photonPlayer;
-    public PlayerWeapon weapon;
-    public MeshRenderer mr;
-
+     [Header("Components")]
+     public Rigidbody rig;
+     public Player photonPlayer;
+     //public PlayerWeapon weapon;
+     public MeshRenderer mr;
+    
+    /* 
     [PunRPC]
     public void Initialize(Player player)
     {
@@ -44,7 +45,7 @@ public class PlayerController : MonoBehaviourPun
         {
             GameUI.instance.Initialize(this);
         }
-    }
+    }*/
 
     void Update()
     {
@@ -57,8 +58,8 @@ public class PlayerController : MonoBehaviourPun
         if (Input.GetKeyDown(KeyCode.Space))
             TryJump();
 
-        if (Input.GetMouseButtonDown(0))
-            weapon.TryShoot();
+       // if (Input.GetMouseButtonDown(0))
+         //   weapon.TryShoot();
     }
 
     void Move()
@@ -85,7 +86,7 @@ public class PlayerController : MonoBehaviourPun
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    [PunRPC]
+    /*[PunRPC]
     public void TakeDamage(int attackerId, int damage)
     {
         if (dead)
@@ -170,5 +171,5 @@ public class PlayerController : MonoBehaviourPun
 
         // update the health bar UI
         GameUI.instance.UpdateHealthBar();
-    }
+    }*/
 }
