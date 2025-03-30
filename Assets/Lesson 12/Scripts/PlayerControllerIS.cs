@@ -22,11 +22,9 @@ public class PlayerControllerIS : MonoBehaviour
     [SerializeField]
     private GameObject muzzleFlash;
 
-    public int curHp = 100; 
-    public int maxHp = 100; 
-    // public int kills;
-    // public bool dead;
-
+    public int curHp = 100;
+    public int maxHp = 100;
+    private bool isDead = false;
     private bool flashingDamage;
 
     public MeshRenderer mr;
@@ -55,7 +53,6 @@ public class PlayerControllerIS : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-
     private void OnEnable()
     {
         shootAction.performed += _ => ShootGun();
@@ -75,7 +72,6 @@ public class PlayerControllerIS : MonoBehaviour
 
     private void ShootGun()
     {
-
         if (muzzleFlash != null)
         {
             GameObject flash = Instantiate(muzzleFlash, barrelEndTransform.position, barrelEndTransform.rotation);
@@ -97,6 +93,8 @@ public class PlayerControllerIS : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return; // Если игрок мертв, управление отключается
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -120,5 +118,25 @@ public class PlayerControllerIS : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isDead) return;
+
+        curHp -= damage;
+        Debug.Log($"Игрок получил {damage} урона. Текущее ХП: {curHp}");
+
+        if (curHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        isDead = true;
+        Debug.Log("Игрок погиб!");
+        // Можно добавить анимацию смерти, респавн или экран поражения
     }
 }
