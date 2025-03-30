@@ -7,7 +7,7 @@ public class AIController : MonoBehaviour
     [Header("AI Settings")]
     public float meleeRange = 2f;      // Дистанция для ближней атаки
     public float rangedRange = 10f;    // Дистанция для файербола
-    public float patrolSpeed = 3f;     // Скорость патрулирования
+    public float patrolSpeed = 5f;     // Скорость патрулирования
     public GameObject fireballPrefab;  // Префаб файербола
     public Transform fireballSpawn;    // Точка спавна файербола
     public Transform[] patrolPoints;   // Точки патрулирования
