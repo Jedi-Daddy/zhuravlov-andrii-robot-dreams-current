@@ -1,24 +1,24 @@
 using UnityEngine;
-using XNode;
+using UnityEngine.AI;
 
+[NodeTint("#1E90FF")] // Голубой цвет
 public class BTPatrol : BTNode
 {
     public Transform[] patrolPoints;
+    private NavMeshAgent agent;
     private int currentPoint = 0;
 
-    public override bool Execute()
+    public override NodeState Evaluate()
     {
-        if (patrolPoints.Length == 0) return false;
+        if (agent == null) agent = GameObject.FindGameObjectWithTag("Dragon").GetComponent<NavMeshAgent>();
 
-        Transform target = patrolPoints[currentPoint];
-        float distance = Vector3.Distance(target.position, AIController.instance.transform.position);
+        if (patrolPoints.Length == 0) return NodeState.Failure;
 
-        if (distance < 1f)
+        if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {
             currentPoint = (currentPoint + 1) % patrolPoints.Length;
+            agent.SetDestination(patrolPoints[currentPoint].position);
         }
-
-        AIController.instance.MoveTo(target.position);
-        return true;
+        return NodeState.Running;
     }
 }

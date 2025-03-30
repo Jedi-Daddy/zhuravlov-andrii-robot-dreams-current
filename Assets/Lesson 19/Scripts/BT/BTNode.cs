@@ -3,6 +3,6 @@ using XNode;
 
 public abstract class BTNode : Node
 {
-    [Output] public BTNode next;
-    public abstract bool Execute();
+    public enum NodeState { Running, Success, Failure }
+    public abstract NodeState Evaluate();
 }

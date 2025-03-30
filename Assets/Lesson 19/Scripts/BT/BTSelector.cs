@@ -1,20 +1,18 @@
 using System.Collections.Generic;
-using XNode;
+using UnityEngine;
 
-[NodeWidth(200)]
+[NodeTint("#6A5ACD")] // Фиолетовый цвет в редакторе
 public class BTSelector : BTNode
 {
-    [Output(dynamicPortList = true)] public List<BTNode> children;
+    [Input] public List<BTNode> children;
 
-    public override bool Execute()
+    public override NodeState Evaluate()
     {
-        foreach (BTNode child in children)
+        foreach (var child in children)
         {
-            if (child.Execute())
-            {
-                return true;
-            }
+            if (child.Evaluate() == NodeState.Success)
+                return NodeState.Success;
         }
-        return false;
+        return NodeState.Failure;
     }
 }
