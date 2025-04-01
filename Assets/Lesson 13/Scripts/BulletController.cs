@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     [SerializeField] private GameObject bulletDecal;
-    [SerializeField] private int _damage = 10; 
+    [SerializeField] private int _damage = 15;
 
     private float speed = 30f;
     private float timeToDestroy = 3f;
@@ -32,13 +32,22 @@ public class BulletController : MonoBehaviour
         ContactPoint contact = other.GetContact(0);
         Instantiate(bulletDecal, contact.point + contact.normal * 0.0001f, Quaternion.LookRotation(contact.normal));
 
-        Debug.Log($"Hit something: {other.gameObject.name}");
+        Debug.Log($"Пуля попала в: {other.gameObject.name}");
 
-        EnemyController enemy = other.gameObject.GetComponent<EnemyController>();
+        // Поиск EnemyAI на текущем объекте или его родителях
+        EnemyAI enemy = other.gameObject.GetComponentInParent<EnemyAI>();
+
         if (enemy != null)
         {
-            enemy.TakeDamage(_damage); // Теперь _damage существует
-            Debug.Log($"Hit enemy {enemy.gameObject.name}");
+            Debug.Log($"Попадание по врагу: {enemy.gameObject.name}, нанесен урон: {_damage}");
+            enemy.TakeDamage(_damage);
+
+            // Добавляем очки за попадание
+            ScoreManager.Instance.AddScore(10); // Добавляем 10 очков за попадание
+        }
+        else
+        {
+            Debug.Log("Враг не найден на этом объекте.");
         }
 
         Destroy(gameObject);

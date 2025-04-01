@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7047727993125559176}
   - component: {fileID: 1188203034485775752}
   - component: {fileID: 6499203959743041604}
-  - component: {fileID: 5233790475770140693}
+  - component: {fileID: 7520955528651721880}
   - component: {fileID: -2565135313464947645}
   - component: {fileID: 6153761023130057808}
   m_Layer: 7
@@ -102,13 +102,13 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5233790475770140693
+--- !u!114 &7520955528651721880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletDecal: {fileID: 7274409290925267140, guid: 6a810ad889be2aa4bab8618bd8a4ff2f,
     type: 3}
-  _damage: 5
+  _damage: 10
 --- !u!54 &-2565135313464947645
 Rigidbody:
   m_ObjectHideFlags: 0

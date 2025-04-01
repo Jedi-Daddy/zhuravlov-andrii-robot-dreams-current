@@ -6,13 +6,14 @@ public class DamageScript : MonoBehaviour
 {
     public int damageAmount = 20;
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyScript>().TakeDamage(damageAmount);
+            other.GetComponent<EnemyAI>()?.TakeDamage(20);
+            Destroy(gameObject); // Удаляем пулю
         }
     }
 
-     
+
 }
