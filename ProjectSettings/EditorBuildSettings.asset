@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/FinalProject/Scenes/Game.unity
     guid: f982751a5c7328848b4be6919de2baec
   - enabled: 1
+    path: Assets/Lesson 16/MenuLection16.unity
+    guid: 82819b8f604085c4da21042c2f054ea0
+  - enabled: 1
     path: Assets/Lesson 19/Scenes/Lection19.unity
     guid: 7be80ba81888a9f4385b5c804f190465
   m_configObjects:

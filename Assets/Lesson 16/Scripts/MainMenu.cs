@@ -5,7 +5,7 @@ public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("Lection16"); 
+        SceneManager.LoadScene("Lection19"); 
     }
 
     public void ExitGame()
@@ -29,6 +29,6 @@ public class MainMenu : MonoBehaviour
         // Сбрасываем состояние игры перед началом
         ResetGameState();
         // Перезагружаем сцену игры (например, "GameScene")
-        SceneManager.LoadScene("Lection16");
+        SceneManager.LoadScene("Lection19");
     }
 }
