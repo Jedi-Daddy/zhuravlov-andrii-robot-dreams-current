@@ -79,9 +79,15 @@ public class ShootNode : BTNode
 
     public override bool Execute()
     {
+        // Изменено: используем полное направление, включая Y координату
         Vector3 direction = (player.position - enemy.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+
+        // Обновляем поворот врага для выстрела в 3D пространстве
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
         enemy.rotation = Quaternion.Slerp(enemy.rotation, lookRotation, Time.deltaTime * 5f);
+
+        // Также обновляем поворот точки стрельбы, чтобы она была направлена прямо на игрока
+        firePoint.rotation = Quaternion.LookRotation(direction);
 
         if (canShoot)
         {
@@ -89,7 +95,9 @@ public class ShootNode : BTNode
 
             GameObject fireball = GameObject.Instantiate(fireballPrefab, firePoint.position, firePoint.rotation);
             Rigidbody rb = fireball.GetComponent<Rigidbody>();
-            rb.velocity = firePoint.forward * fireballSpeed;
+
+            // Используем направление от точки стрельбы к игроку для определения скорости снаряда
+            rb.velocity = direction * fireballSpeed;
 
             canShoot = false;
             enemy.GetComponent<EnemyAI>().StartCoroutine(ResetShoot());
