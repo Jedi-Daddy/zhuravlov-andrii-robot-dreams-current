@@ -22,6 +22,10 @@ public class PlayerControllerIS : MonoBehaviour
     [SerializeField]
     private GameObject muzzleFlash;
 
+    // Reference to the BlasterSimply pistol GameObject
+    [SerializeField]
+    private Transform blasterPistolTransform;
+
     public int curHp = 100;
     public int maxHp = 100;
     private bool isDead = false;
@@ -40,6 +44,25 @@ public class PlayerControllerIS : MonoBehaviour
     private InputAction jumpAction;
     private InputAction shootAction;
 
+    // Recoil system settings
+    [Header("Recoil Settings")]
+    [SerializeField] private float positionalRecoilForce = 0.1f;      // How far back the gun moves
+    [SerializeField] private float rotationalRecoilForceX = 5f;       // Rotation on X axis (up/down)
+    [SerializeField] private float rotationalRecoilForceY = 2f;       // Rotation on Y axis (left/right)
+    [SerializeField] private float rotationalRecoilForceZ = 3f;       // Rotation on Z axis (roll)
+    [SerializeField] private float recoilRecoverySpeed = 10f;         // Position recovery speed
+    [SerializeField] private float rotationalRecoverySpeed = 15f;     // Rotation recovery speed
+
+    // Store original position and rotation
+    private Vector3 originalPistolPosition;
+    private Quaternion originalPistolRotation;
+
+    // Target position and rotation during recoil
+    private Vector3 targetPistolPosition;
+    private Quaternion targetPistolRotation;
+
+    private bool isRecoiling = false;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -49,6 +72,45 @@ public class PlayerControllerIS : MonoBehaviour
         shootAction = playerInput.actions["Shoot"];
 
         cameraTransform = Camera.main.transform;
+
+        // Try to find the BlasterSimply pistol if not assigned
+        if (blasterPistolTransform == null)
+        {
+            // Try to find parent of barrelEndTransform with "Blaster" in the name
+            Transform current = barrelEndTransform;
+            while (current != null && current != transform)
+            {
+                if (current.name.Contains("Blaster") || current.name.Contains("Pistol") || current.name.Contains("Gun"))
+                {
+                    blasterPistolTransform = current;
+                    Debug.Log($"Found weapon transform: {blasterPistolTransform.name}");
+                    break;
+                }
+                current = current.parent;
+            }
+
+            // If still not found, use barrelEndTransform's parent as fallback
+            if (blasterPistolTransform == null && barrelEndTransform != null)
+            {
+                blasterPistolTransform = barrelEndTransform.parent;
+                Debug.Log($"Using fallback weapon transform: {blasterPistolTransform?.name ?? "null"}");
+            }
+        }
+
+        // Store original position and rotation
+        if (blasterPistolTransform != null)
+        {
+            originalPistolPosition = blasterPistolTransform.localPosition;
+            originalPistolRotation = blasterPistolTransform.localRotation;
+            targetPistolPosition = originalPistolPosition;
+            targetPistolRotation = originalPistolRotation;
+
+            Debug.Log($"Initialized weapon at position: {originalPistolPosition}, rotation: {originalPistolRotation.eulerAngles}");
+        }
+        else
+        {
+            Debug.LogError("BlasterSimply transform not found! Assign it in the inspector or make sure your weapon hierarchy has 'Blaster', 'Pistol', or 'Gun' in its name.");
+        }
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -89,11 +151,43 @@ public class PlayerControllerIS : MonoBehaviour
             bulletController.target = hit.point;
             bulletController.hit = true;
         }
+
+        // Apply recoil to the whole pistol
+        ApplyRecoil();
+    }
+
+    private void ApplyRecoil()
+    {
+        if (blasterPistolTransform == null) return;
+
+        isRecoiling = true;
+
+        // Calculate recoil position - move back along local Z axis
+        Vector3 recoilPositionOffset = blasterPistolTransform.localRotation * new Vector3(0, 0, -positionalRecoilForce);
+        targetPistolPosition = originalPistolPosition + recoilPositionOffset;
+
+        // Calculate rotation with randomized components for natural feel
+        float recoilX = -rotationalRecoilForceX; // Upward recoil
+        float recoilY = Random.Range(-rotationalRecoilForceY, rotationalRecoilForceY); // Random horizontal
+        float recoilZ = Random.Range(-rotationalRecoilForceZ, rotationalRecoilForceZ); // Random roll
+
+        Quaternion recoilRotation = Quaternion.Euler(recoilX, recoilY, recoilZ);
+        targetPistolRotation = originalPistolRotation * recoilRotation;
+
+        // Apply immediate partial recoil for responsive feel (30% of full recoil)
+        blasterPistolTransform.localPosition = Vector3.Lerp(blasterPistolTransform.localPosition, targetPistolPosition, 0.3f);
+        blasterPistolTransform.localRotation = Quaternion.Lerp(blasterPistolTransform.localRotation, targetPistolRotation, 0.3f);
+
+        // Debug output to verify recoil is applied
+        Debug.Log($"Applied recoil - Position: {blasterPistolTransform.localPosition}, Rotation: {blasterPistolTransform.localRotation.eulerAngles}");
     }
 
     void Update()
     {
-        if (isDead) return; // Если игрок мертв, управление отключается
+        if (isDead) return; // If player is dead, disable controls
+
+        // Handle weapon recoil recovery
+        HandleWeaponRecoil();
 
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
@@ -120,6 +214,47 @@ public class PlayerControllerIS : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
+    private void HandleWeaponRecoil()
+    {
+        if (blasterPistolTransform == null) return;
+
+        // In recoil state: weapon is at the recoil point, moving back to rest
+        if (isRecoiling)
+        {
+            // Smoothly interpolate between current and target recoil positions
+            blasterPistolTransform.localPosition = Vector3.Lerp(
+                blasterPistolTransform.localPosition,
+                targetPistolPosition,
+                Time.deltaTime * recoilRecoverySpeed);
+
+            blasterPistolTransform.localRotation = Quaternion.Lerp(
+                blasterPistolTransform.localRotation,
+                targetPistolRotation,
+                Time.deltaTime * rotationalRecoverySpeed);
+
+            // Once we're close to the target recoil position, transition to recovery phase
+            if (Vector3.Distance(blasterPistolTransform.localPosition, targetPistolPosition) < 0.001f)
+            {
+                isRecoiling = false;
+                targetPistolPosition = originalPistolPosition;
+                targetPistolRotation = originalPistolRotation;
+            }
+        }
+        else
+        {
+            // Recovery phase: smoothly return to original position/rotation
+            blasterPistolTransform.localPosition = Vector3.Lerp(
+                blasterPistolTransform.localPosition,
+                originalPistolPosition,
+                Time.deltaTime * recoilRecoverySpeed);
+
+            blasterPistolTransform.localRotation = Quaternion.Lerp(
+                blasterPistolTransform.localRotation,
+                originalPistolRotation,
+                Time.deltaTime * rotationalRecoverySpeed);
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         if (isDead) return;
@@ -137,6 +272,6 @@ public class PlayerControllerIS : MonoBehaviour
     {
         isDead = true;
         Debug.Log("Игрок погиб!");
-        // Можно добавить анимацию смерти, респавн или экран поражения
+        // You could add death animation, respawn or game over screen
     }
 }
