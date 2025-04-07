@@ -11,7 +11,7 @@ public class ScoreManager : MonoBehaviour
 
     public GameObject victoryPanel; // UI панель победы
     public Button menuButton;       //  нопка возврата в меню
-    public int scoreToWin = 200;
+    public int scoreToWin = 300;
 
     private bool gameEnded = false;
 

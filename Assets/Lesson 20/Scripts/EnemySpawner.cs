@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField, Tooltip("Сюда перетащи Enemy префаб (обязательно!)")]
     private GameObject enemyPrefab;   // Префаб врага
     [SerializeField]
     private Transform spawnPoint;     // Точка, где будут спауниться враги (можно заменить на случайную точку)
@@ -12,7 +12,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        // Запускаем корутину спауна врагов
+        if (enemyPrefab == null)
+        {
+            Debug.LogError("Префаб врага не назначен! Спаун не запущен.");
+            return;
+        }
+
         StartCoroutine(SpawnEnemies());
     }
 

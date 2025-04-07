@@ -164,7 +164,7 @@ public class MeleeAttackNode : BTNode
         // Проверяем, попал ли удар в игрока
         if (Vector3.Distance(enemy.position, player.position) <= 3f)
         {
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            PlayerControllerIS playerHealth = player.GetComponent<PlayerControllerIS>();
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);

@@ -6,26 +6,31 @@ public class Fireball : MonoBehaviour
     public float speed = 10f;
     public float lifetime = 5f;
 
-    void Start()
+    private void Start()
     {
+        // Уничтожить фаербол через заданное время, если он не столкнётся
         Destroy(gameObject, lifetime);
     }
 
-    void Update()
+    private void Update()
     {
+        // Движение вперёд
         transform.position += transform.forward * speed * Time.deltaTime;
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        // Урон игроку
+        PlayerControllerIS player = other.GetComponent<PlayerControllerIS>();
+        if (player != null)
         {
-            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(damage);
-            }
-            Destroy(gameObject);
+            player.TakeDamage(damage);
+            Debug.Log("Фаербол попал в игрока и нанёс урон!");
         }
+
+        // Можно добавить эффекты столкновения, звук и т.д.
+
+        Destroy(gameObject); // Уничтожаем фаербол в любом случае после столкновения
     }
 }
+
