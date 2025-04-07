@@ -1,20 +1,27 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField, Tooltip("Сюда перетащи Enemy префаб (обязательно!)")]
-    private GameObject enemyPrefab;   // Префаб врага
-    [SerializeField]
-    private Transform spawnPoint;     // Точка, где будут спауниться враги (можно заменить на случайную точку)
-    [SerializeField]
-    private float spawnInterval = 10f; // Периодичность спауна врагов (в секундах)
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private List<Transform> spawnPoints;
+    [SerializeField] private float spawnInterval = 10f;
+    [SerializeField] private int maxEnemies = 10;
+
+    private List<GameObject> spawnedEnemies = new List<GameObject>();
 
     private void Start()
     {
         if (enemyPrefab == null)
         {
             Debug.LogError("Префаб врага не назначен! Спаун не запущен.");
+            return;
+        }
+
+        if (spawnPoints == null || spawnPoints.Count == 0)
+        {
+            Debug.LogError("Список точек спауна пуст! Добавь хотя бы одну точку.");
             return;
         }
 
@@ -25,25 +32,46 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            // Спауним врага
-            SpawnEnemy();
-
-            // Ждём указанное время перед следующим спауном
+            if (spawnedEnemies.Count < maxEnemies)
+            {
+                SpawnEnemy();
+            }
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
     private void SpawnEnemy()
     {
-        if (enemyPrefab != null)
+        Transform randomPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+        GameObject enemy = Instantiate(enemyPrefab, randomPoint.position, randomPoint.rotation);
+        spawnedEnemies.Add(enemy);
+
+        // Удаляем из списка, если враг уничтожен
+        enemy.GetComponent<EnemyAI>()?.StartCoroutine(RemoveWhenDead(enemy));
+
+        Debug.Log("Враг заспаунился в точке: " + randomPoint.name);
+    }
+
+    private IEnumerator RemoveWhenDead(GameObject enemy)
+    {
+        while (enemy != null)
         {
-            // Спавним врага в точке spawnPoint
-            Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-            Debug.Log("Враг заспаунился!");
+            yield return null;
         }
-        else
+        spawnedEnemies.Remove(enemy);
+    }
+
+    // Гизмо для визуализации точек спауна
+    private void OnDrawGizmos()
+    {
+        if (spawnPoints != null)
         {
-            Debug.LogError("Префаб врага не назначен!");
+            Gizmos.color = Color.red;
+            foreach (Transform point in spawnPoints)
+            {
+                if (point != null)
+                    Gizmos.DrawWireSphere(point.position, 0.5f);
+            }
         }
     }
 }

@@ -38,9 +38,9 @@ public class PlayerControllerIS : MonoBehaviour
     private InputAction shootAction;
 
     [Header("Recoil Settings")]
-    [SerializeField] private float positionalRecoilForce = 0.1f;
-    [SerializeField] private float rotationalRecoilForceX = 5f; // теперь будет использоваться только X для отдачи вверх
-    [SerializeField] private float recoilRecoverySpeed = 10f;
+    [SerializeField] private float positionalRecoilForce = 0.2f;
+    [SerializeField] private float rotationalRecoilForceX = 10f; // теперь будет использоваться только X для отдачи вверх
+    [SerializeField] private float recoilRecoverySpeed = 5f;
     [SerializeField] private float rotationalRecoverySpeed = 15f;
 
     private Vector3 originalPistolPosition;
@@ -49,6 +49,10 @@ public class PlayerControllerIS : MonoBehaviour
     private Quaternion targetPistolRotation;
 
     private bool isRecoiling = false;
+
+    [Header("Detection")]
+    public float detectionRange = 15f; // Расстояние, на котором враг начинает реагировать
+    public float losePlayerDistance = 20f; // Расстояние, после которого враг перестаёт преследовать игрока
 
     private void Awake()
     {
