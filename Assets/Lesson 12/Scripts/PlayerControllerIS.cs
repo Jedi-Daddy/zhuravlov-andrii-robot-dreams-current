@@ -54,8 +54,11 @@ public class PlayerControllerIS : MonoBehaviour
     public float detectionRange = 15f; // Расстояние, на котором враг начинает реагировать
     public float losePlayerDistance = 20f; // Расстояние, после которого враг перестаёт преследовать игрока
 
+    public static PlayerControllerIS Instance { get; private set; }
+
     private void Awake()
     {
+        Instance = this;
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
@@ -228,6 +231,16 @@ public class PlayerControllerIS : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void Heal(int amount)
+    {
+        if (isDead) return;
+
+        curHp += amount;
+        if (curHp > maxHp) curHp = maxHp;
+
+        Debug.Log($"Player healed by {amount}. Current HP: {curHp}/{maxHp}");
     }
 
     private void Die()
