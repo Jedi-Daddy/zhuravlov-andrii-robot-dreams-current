@@ -21,6 +21,7 @@ public class PlayerControllerIS : MonoBehaviour
     public int curHp = 100;
     public int maxHp = 100;
     private bool isDead = false;
+    public int coins = 0;
 
     public GameObject gameOverPanel;
     public Button mainMenuButton;
