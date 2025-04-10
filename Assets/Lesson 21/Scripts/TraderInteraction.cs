@@ -34,7 +34,21 @@ public class TraderInteraction : MonoBehaviour
 
     private void ToggleTraderPanel()
     {
-        traderPanel.SetActive(!traderPanel.activeSelf);
+        bool isActive = !traderPanel.activeSelf;
+        traderPanel.SetActive(isActive);
+
+        if (isActive)
+        {
+            // –азлочить курсор и сделать его видимым
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            // «аблокировать курсор обратно и скрыть его
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     private void OnDrawGizmosSelected()
