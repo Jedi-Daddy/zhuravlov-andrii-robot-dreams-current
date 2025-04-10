@@ -21,7 +21,9 @@ public class PlayerControllerIS : MonoBehaviour
     public int curHp = 100;
     public int maxHp = 100;
     private bool isDead = false;
-    public int coins = 0;
+    public int coins = 5;
+    public Text coinsText;
+    public Text hpText;
 
     public GameObject gameOverPanel;
     public Button mainMenuButton;
@@ -234,14 +236,17 @@ public class PlayerControllerIS : MonoBehaviour
         }
     }
 
-    public void Heal(int amount)
+    private void Start()
     {
-        if (isDead) return;
+        UpdateCoinsUI();
+        UpdateHPUI();
+    }
 
-        curHp += amount;
+    public void Heal(int healAmount)
+    {
+        curHp += healAmount;
         if (curHp > maxHp) curHp = maxHp;
-
-        Debug.Log($"Player healed by {amount}. Current HP: {curHp}/{maxHp}");
+        UpdateHPUI();
     }
 
     private void Die()
@@ -267,7 +272,19 @@ public class PlayerControllerIS : MonoBehaviour
 
     public void AddMoney(int amount)
     {
-        money += amount;
-        Debug.Log("Монет у игрока: " + money);
+        coins += amount;
+        UpdateCoinsUI();
+    }
+
+    private void UpdateCoinsUI()
+    {
+        if (coinsText != null)
+            coinsText.text = "Coins: " + coins;
+    }
+
+    private void UpdateHPUI()
+    {
+        if (hpText != null)
+            hpText.text = "HP: " + curHp + "/" + maxHp;
     }
 }
