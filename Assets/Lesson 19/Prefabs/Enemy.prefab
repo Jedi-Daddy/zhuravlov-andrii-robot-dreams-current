@@ -769,12 +769,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d71d9f2ca7ff148b23166c2708eeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 4258861070735246093, guid: 6feeb707268b4e94192afb21c989728b, type: 3}
+  player: {fileID: 0}
   firePoint: {fileID: 6913321192196992598}
   fireballPrefab: {fileID: 6148441785933309387, guid: faf75d10e5f706b48a2865c150cbc455,
     type: 3}
-  maxHP: 100
+  coinPrefab: {fileID: 3169231092516155139, guid: 46cef5b97043de34c859ea3baa385696,
+    type: 3}
   hpBarFill: {fileID: 7199473452160545011}
+  maxHP: 100
+  meleeRange: 2
+  detectionRange: 13
+  chaseExitDistance: 17
 --- !u!195 &894097513131974367
 NavMeshAgent:
   m_ObjectHideFlags: 0

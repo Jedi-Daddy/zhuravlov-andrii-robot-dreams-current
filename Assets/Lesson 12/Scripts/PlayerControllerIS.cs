@@ -261,4 +261,12 @@ public class PlayerControllerIS : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
+
+    public int money = 0;
+
+    public void AddMoney(int amount)
+    {
+        money += amount;
+        Debug.Log("Монет у игрока: " + money);
+    }
 }

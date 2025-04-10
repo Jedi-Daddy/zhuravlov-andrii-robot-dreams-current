@@ -56,6 +56,23 @@ public class PatrolNode : BTNode
     }
 }
 
+public class ChaseNode : BTNode
+{
+    private NavMeshAgent agent;
+    private Transform player;
+    public ChaseNode(NavMeshAgent agent, Transform player)
+    {
+        this.agent = agent;
+        this.player = player;
+    }
+
+    public override bool Execute()
+    {
+        agent.SetDestination(player.position);
+        return true;
+    }
+}
+
 public class ShootNode : BTNode
 {
     private Transform enemy, player, firePoint;
@@ -181,37 +198,26 @@ public class DistanceConditionNode : BTNode
     }
 }
 
-public class WithinChaseRangeNode : BTNode
-{
-    private Transform enemy, player;
-    private float maxDistance;
-    public WithinChaseRangeNode(Transform enemy, Transform player, float maxDistance)
-    {
-        this.enemy = enemy;
-        this.player = player;
-        this.maxDistance = maxDistance;
-    }
-    public override bool Execute()
-    {
-        return Vector3.Distance(enemy.position, player.position) <= maxDistance;
-    }
-}
-
 public class EnemyAI : MonoBehaviour
 {
+    [Header("References")]
     public Transform player;
-    private NavMeshAgent agent;
     public Transform firePoint;
     public GameObject fireballPrefab;
-    private BTNode root;
-
-    public int maxHP = 100;
-    private int currentHP;
+    public GameObject coinPrefab; // Префаб монетки
     public Image hpBarFill;
 
+    [Header("Enemy Stats")]
+    public int maxHP = 100;
+    private int currentHP;
+
+    [Header("AI Ranges")]
     public float meleeRange = 3f;
     public float detectionRange = 10f;
     public float chaseExitDistance = 20f;
+
+    private NavMeshAgent agent;
+    private BTNode root;
 
     void Start()
     {
@@ -229,21 +235,17 @@ public class EnemyAI : MonoBehaviour
         }
 
         BTNode patrol = new PatrolNode(agent);
+        BTNode chase = new ChaseNode(agent, player);
         BTNode shoot = new ShootNode(transform, player, firePoint, fireballPrefab);
         BTNode melee = new MeleeAttackNode(transform, player, attackHand);
 
         BTNode isClose = new DistanceConditionNode(transform, player, meleeRange);
         BTNode isDetected = new DistanceConditionNode(transform, player, detectionRange);
-        BTNode isWithinChase = new WithinChaseRangeNode(transform, player, chaseExitDistance);
-
-        BTNode chaseAndShoot = new SequenceNode(new List<BTNode> {
-            isWithinChase,
-            shoot
-        });
+        BTNode isWithinChase = new DistanceConditionNode(transform, player, chaseExitDistance);
 
         root = new SelectorNode(new List<BTNode> {
             new SequenceNode(new List<BTNode> { isClose, melee }),
-            new SequenceNode(new List<BTNode> { isDetected, chaseAndShoot }),
+            new SequenceNode(new List<BTNode> { isDetected, chase, shoot }),
             patrol
         });
     }
@@ -268,6 +270,24 @@ public class EnemyAI : MonoBehaviour
 
     private void Die()
     {
+        if (coinPrefab != null)
+        {
+            Vector3 spawnPosition = transform.position + Vector3.up * 0.2f; // немного выше пола
+            Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
+        }
+
         Destroy(gameObject);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, meleeRange);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, chaseExitDistance);
     }
 }
