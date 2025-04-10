@@ -48,4 +48,9 @@ public class Trader : MonoBehaviour
             traderPanel.SetActive(false); // Закрыть при выходе
         }
     }
+
+    public void TogglePanel()
+    {
+        traderPanel.SetActive(!traderPanel.activeSelf);
+    }
 }
