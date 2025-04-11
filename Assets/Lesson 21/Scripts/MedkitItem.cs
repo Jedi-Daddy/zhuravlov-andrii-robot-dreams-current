@@ -2,19 +2,31 @@ using UnityEngine;
 
 public class MedkitItem : MonoBehaviour
 {
-    [SerializeField] private int healAmount = 30;
-
-    public void Use()
+    public void OnUseButtonClicked()
     {
-        if (PlayerControllerIS.Instance != null)
+        PlayerControllerIS player = FindObjectOfType<PlayerControllerIS>();
+
+        if (player == null)
         {
-            PlayerControllerIS.Instance.Heal(healAmount);
-            InventorySystem.Instance.RemoveItem("Medkit");
-            Debug.Log("Used Medkit and healed player for " + healAmount);
+            Debug.LogError("PlayerControllerIS not found on scene!");
+            return;
+        }
+
+        if (player.curHp < player.maxHp)
+        {
+            player.curHp += 20;
+
+            if (player.curHp > player.maxHp)
+                player.curHp = player.maxHp;
+
+            player.UpdateHPUI(); // чтобы сразу обновлялся UI хп
+            Debug.Log("Лечение на 20 HP. Текущее HP: " + player.curHp);
         }
         else
         {
-            Debug.LogWarning("Player instance not found for healing");
+            Debug.Log("HP уже полное!");
         }
+
+        Destroy(gameObject); // удаляем аптечку после использования
     }
 }

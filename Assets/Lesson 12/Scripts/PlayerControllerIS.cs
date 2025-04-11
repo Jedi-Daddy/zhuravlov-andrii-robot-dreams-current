@@ -282,9 +282,9 @@ public class PlayerControllerIS : MonoBehaviour
             coinsText.text = "Coins: " + coins;
     }
 
-    private void UpdateHPUI()
+    public void UpdateHPUI()
     {
-        if (hpText != null)
-            hpText.text = "HP: " + curHp + "/" + maxHp;
+        if (hpBarFill != null)
+            hpBarFill.fillAmount = (float)curHp / maxHp;
     }
 }
