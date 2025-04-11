@@ -75,7 +75,7 @@ public class ScoreManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        Time.timeScale = 1f; // Вернуть время перед загрузкой сцены
-        SceneManager.LoadScene("MenuLection16"); // Заменить на имя вашей сцены меню
+        Time.timeScale = 1f; 
+        SceneManager.LoadScene("LastMenu"); 
     }
 }

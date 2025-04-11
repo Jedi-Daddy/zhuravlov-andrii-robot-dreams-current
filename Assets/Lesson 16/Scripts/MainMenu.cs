@@ -5,7 +5,7 @@ public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("Lection20"); 
+        SceneManager.LoadScene("LastLection"); 
     }
 
     public void ExitGame()
@@ -18,17 +18,15 @@ public class MainMenu : MonoBehaviour
     // Сброс состояния игры
     private void ResetGameState()
     {
-        // Пример сброса всех глобальных переменных
-        // Например: Score = 0;
-        // Если используешь какие-то данные в PlayerPrefs — очищай их
+        
         PlayerPrefs.DeleteAll();
     }
 
     public void OnStartGame()
     {
-        // Сбрасываем состояние игры перед началом
+        
         ResetGameState();
-        // Перезагружаем сцену игры (например, "GameScene")
-        SceneManager.LoadScene("Lection20");
+        
+        SceneManager.LoadScene("LastLection");
     }
 }

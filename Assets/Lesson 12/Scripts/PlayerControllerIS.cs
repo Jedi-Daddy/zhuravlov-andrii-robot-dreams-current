@@ -260,7 +260,7 @@ public class PlayerControllerIS : MonoBehaviour
         if (mainMenuButton != null)
             mainMenuButton.onClick.AddListener(() => {
                 Time.timeScale = 1f;
-                SceneManager.LoadScene("MenuLection16");
+                SceneManager.LoadScene("LastMenu");
             });
 
         Time.timeScale = 0f;
