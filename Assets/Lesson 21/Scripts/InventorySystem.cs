@@ -117,4 +117,15 @@ public class InventorySystem : MonoBehaviour
             Cursor.visible = false;
         }
     }
+
+    public int GetItemCount(string itemName)
+    {
+        int count = 0;
+        foreach (var item in items)
+        {
+            if (item == itemName)
+                count++;
+        }
+        return count;
+    }
 }
