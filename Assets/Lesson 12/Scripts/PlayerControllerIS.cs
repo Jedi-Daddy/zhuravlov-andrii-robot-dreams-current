@@ -24,6 +24,7 @@ public class PlayerControllerIS : MonoBehaviour
     public int coins = 5;
     public Text coinsText;
     public Text hpText;
+    public int Coins { get; set; }
 
     public GameObject gameOverPanel;
     public Button mainMenuButton;
@@ -155,6 +156,12 @@ public class PlayerControllerIS : MonoBehaviour
     {
         if (isDead) return;
 
+        // Открыть / закрыть инвентарь на Tab
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
+        {
+            InventorySystem.Instance.ToggleInventory();
+        }
+
         HandleWeaponRecoil();
 
         groundedPlayer = controller.isGrounded;
@@ -242,9 +249,9 @@ public class PlayerControllerIS : MonoBehaviour
         UpdateHPUI();
     }
 
-    public void Heal(int healAmount)
+    public void Heal(int amount)
     {
-        curHp += healAmount;
+        curHp += amount;
         if (curHp > maxHp) curHp = maxHp;
         UpdateHPUI();
     }
@@ -268,18 +275,24 @@ public class PlayerControllerIS : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public int money = 0;
-
-    public void AddMoney(int amount)
+    public void AddCoins(int amount)
     {
-        coins += amount;
+        Coins += amount;
         UpdateCoinsUI();
     }
 
-    private void UpdateCoinsUI()
+    public void SpendCoins(int amount)
     {
-        if (coinsText != null)
-            coinsText.text = "Coins: " + coins;
+        Coins -= amount;
+        if (Coins < 0)
+            Coins = 0;
+
+        UpdateCoinsUI();
+    }
+
+    public void UpdateCoinsUI()
+    {
+        coinsText.text = "Coins: " + Coins;
     }
 
     public void UpdateHPUI()

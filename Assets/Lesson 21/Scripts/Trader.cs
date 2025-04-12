@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Trader : MonoBehaviour
 {
-    [SerializeField] private int medkitPrice = 5;
-    [SerializeField] private InventorySystem inventorySystem;
+    [SerializeField] private int medkitPrice = 5; // Цена одной аптечки
 
     public void BuyMedkit()
     {
@@ -11,22 +10,22 @@ public class Trader : MonoBehaviour
 
         if (player == null)
         {
-            Debug.LogError("Trader: Не найден PlayerControllerIS на сцене!");
+            Debug.LogError("Player not found!");
             return;
         }
 
-        if (player.coins >= medkitPrice)
+        if (player.Coins >= medkitPrice)
         {
-            player.coins -= medkitPrice;
-            player.SendMessage("UpdateCoinsUI");
+            player.Coins -= medkitPrice;
+            player.UpdateCoinsUI();
 
-            inventorySystem.AddItem("Medkit");
+            InventorySystem.Instance.AddItem("Medkit");  // Добавляем медкит в инвентарь
 
-            Debug.Log("Аптечка успешно куплена!");
+            Debug.Log("Медкит куплен!");
         }
         else
         {
-            Debug.Log("Недостаточно монет для покупки аптечки!");
+            Debug.Log("Недостаточно монет для покупки медкита!");
         }
     }
 }

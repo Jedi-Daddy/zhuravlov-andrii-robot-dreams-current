@@ -2,19 +2,20 @@ using UnityEngine;
 
 public class CoinPickup : MonoBehaviour
 {
-    [SerializeField] private int coinValue = 1; // сколько валюты даёт монетка
+    [SerializeField] private int coinValue = 1; // Сколько монет даёт эта монетка
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             PlayerControllerIS player = other.GetComponent<PlayerControllerIS>();
+
             if (player != null)
             {
-                player.AddMoney(coinValue); // вызываем метод добавления валюты
+                player.AddCoins(coinValue); // Добавляем монетки через новый метод
             }
 
-            Destroy(gameObject); // удаляем монету после подбора
+            Destroy(gameObject); // Удаляем монету после подбора
         }
     }
 }

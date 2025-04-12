@@ -1,74 +1,120 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class InventorySystem : MonoBehaviour
 {
-    public static InventorySystem Instance;
+    public static InventorySystem Instance { get; private set; }
 
-    public GameObject inventoryPanel;      // Ссылка на панель UI инвентаря
-    public Transform itemContainer;        // Контейнер для предметов (например, вертикальный список)
-    public GameObject itemSlotPrefab;      // Префаб одного слота (с иконкой/названием)
+    [Header("Settings")]
+    [SerializeField] private GameObject itemSlotPrefab;
+    [SerializeField] private Transform slotsParent;
+    [SerializeField] private List<ItemSlot> itemSlots; // перетаскиваем в инспекторе!
 
-    private List<string> inventoryItems = new List<string>();
-    private bool isInventoryOpen = false;
+    [Header("Icons")]
+    [SerializeField] private Sprite medkitIcon;
+    [SerializeField] private Sprite defaultIcon;
+
+    private PlayerControllerIS player;
+    private List<string> items = new List<string>();
+
+    public GameObject inventoryPanel;
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-    }
-
-    private void Update()
-    {
-        if (Keyboard.current.tabKey.wasPressedThisFrame)
-        {
-            ToggleInventory();
-        }
-    }
-
-    public void ToggleInventory()
-    {
-        isInventoryOpen = !isInventoryOpen;
-        inventoryPanel.SetActive(isInventoryOpen);
-        Cursor.lockState = isInventoryOpen ? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible = isInventoryOpen;
+        Instance = this;
+        player = FindObjectOfType<PlayerControllerIS>();
     }
 
     public void AddItem(string itemName)
     {
-        inventoryItems.Add(itemName);
+        items.Add(itemName);
         RefreshUI();
     }
 
-    private void RefreshUI()
+    public void RemoveItem(ItemSlot slot)
     {
-        foreach (Transform child in itemContainer)
+        if (itemSlots.Contains(slot))
+        {
+            items.Remove(slot.ItemName);
+            itemSlots.Remove(slot); // не забудь это тоже!
+            Destroy(slot.gameObject);
+        }
+    }
+
+    public void RefreshUI()
+    {
+        foreach (Transform child in slotsParent)
         {
             Destroy(child.gameObject);
         }
 
-        foreach (string item in inventoryItems)
+        foreach (string item in items)
         {
-            GameObject slot = Instantiate(itemSlotPrefab, itemContainer);
-            slot.GetComponentInChildren<Text>().text = item;
+            GameObject slotGO = Instantiate(itemSlotPrefab, slotsParent);
+            ItemSlot itemSlot = slotGO.GetComponent<ItemSlot>();
+
+            Sprite icon = GetItemIcon(item);
+
+            if (item == "Medkit")
+            {
+                itemSlot.SetItem(item, icon, () =>
+                {
+                    player.Heal(20);
+                    RemoveItem(itemSlot);
+                });
+            }
+            else
+            {
+                itemSlot.SetItem(item, icon, () =>
+                {
+                    Debug.Log("Used: " + item);
+                    RemoveItem(itemSlot);
+                });
+            }
+
+            itemSlots.Add(itemSlot);
         }
     }
 
-    public bool HasItem(string itemName)
+    private Sprite GetItemIcon(string item)
     {
-        return inventoryItems.Contains(itemName);
+        switch (item)
+        {
+            case "Medkit":
+                return medkitIcon;
+            default:
+                return defaultIcon;
+        }
+    }
+    public void AddMedkit()
+    {
+        GameObject slotObj = Instantiate(itemSlotPrefab, slotsParent);
+        ItemSlot slot = slotObj.GetComponent<ItemSlot>();
+
+        slot.SetItem("Medkit", medkitIcon, () => {
+            PlayerControllerIS player = FindObjectOfType<PlayerControllerIS>();
+            player.Heal(20); // Лечим на 20 хп
+            RemoveItem(slot); // Удаляем аптечку после использования
+        });
     }
 
-    public void RemoveItem(string itemName)
+    private bool isInventoryOpen = false;
+
+    public void ToggleInventory()
     {
-        if (inventoryItems.Contains(itemName))
+        isInventoryOpen = !isInventoryOpen;
+
+        inventoryPanel.SetActive(isInventoryOpen);
+
+        if (isInventoryOpen)
         {
-            inventoryItems.Remove(itemName);
-            RefreshUI();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }

@@ -11,7 +11,7 @@ public class Coin : MonoBehaviour
             PlayerControllerIS player = other.GetComponent<PlayerControllerIS>();
             if (player != null)
             {
-                player.AddMoney(coinValue);
+                player.AddCoins(coinValue);
             }
             Destroy(gameObject);
         }
