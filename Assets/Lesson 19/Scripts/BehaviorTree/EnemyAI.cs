@@ -3,6 +3,8 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
+
 
 public abstract class BTNode
 {
@@ -219,6 +221,8 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent agent;
     private BTNode root;
 
+    public UnityEvent onDeath;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -270,13 +274,18 @@ public class EnemyAI : MonoBehaviour
 
     private void Die()
     {
+        onDeath?.Invoke();  // Вызываем событие
+
+        Destroy(gameObject); // Удаляем врага
+    }
+
+    public void SpawnCoin()
+    {
         if (coinPrefab != null)
         {
-            Vector3 spawnPosition = transform.position + Vector3.up * 0.2f; // немного выше пола
+            Vector3 spawnPosition = transform.position + Vector3.up * 0.2f;
             Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
         }
-
-        Destroy(gameObject);
     }
 
     private void OnDrawGizmosSelected()
