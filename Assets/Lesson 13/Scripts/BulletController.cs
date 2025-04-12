@@ -30,11 +30,22 @@ public class BulletController : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         ContactPoint contact = other.GetContact(0);
-        Instantiate(bulletDecal, contact.point + contact.normal * 0.0001f, Quaternion.LookRotation(contact.normal));
+
+        // Создаём декаль на месте попадания
+        GameObject decal = Instantiate(bulletDecal, contact.point + contact.normal * 0.001f, Quaternion.LookRotation(contact.normal));
+
+        // Удаляем декаль через 5 секунд
+        Destroy(decal, 5f);
+
+        // Если попали во врага — делаем декаль дочерней ему
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            decal.transform.SetParent(other.transform);
+        }
 
         Debug.Log($"Пуля попала в: {other.gameObject.name}");
 
-        // Поиск EnemyAI на текущем объекте или его родителях
+        // Поиск EnemyAI на объекте или его родителях
         EnemyAI enemy = other.gameObject.GetComponentInParent<EnemyAI>();
 
         if (enemy != null)
@@ -43,7 +54,7 @@ public class BulletController : MonoBehaviour
             enemy.TakeDamage(_damage);
 
             // Добавляем очки за попадание
-            ScoreManager.Instance.AddScore(10); // Добавляем 10 очков за попадание
+            ScoreManager.Instance.AddScore(10);
         }
         else
         {
