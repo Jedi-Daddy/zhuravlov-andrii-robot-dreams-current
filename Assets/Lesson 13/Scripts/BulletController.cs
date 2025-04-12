@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
@@ -31,34 +30,25 @@ public class BulletController : MonoBehaviour
     {
         ContactPoint contact = other.GetContact(0);
 
-        // Создаём декаль на месте попадания
-        GameObject decal = Instantiate(bulletDecal, contact.point + contact.normal * 0.001f, Quaternion.LookRotation(contact.normal));
-
-        // Удаляем декаль через 5 секунд
-        Destroy(decal, 5f);
-
-        // Если попали во врага — делаем декаль дочерней ему
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            decal.transform.SetParent(other.transform);
-        }
-
-        Debug.Log($"Пуля попала в: {other.gameObject.name}");
-
-        // Поиск EnemyAI на объекте или его родителях
         EnemyAI enemy = other.gameObject.GetComponentInParent<EnemyAI>();
 
         if (enemy != null)
         {
             Debug.Log($"Попадание по врагу: {enemy.gameObject.name}, нанесен урон: {_damage}");
-            enemy.TakeDamage(_damage);
 
-            // Добавляем очки за попадание
+            enemy.TakeDamage(_damage);
             ScoreManager.Instance.AddScore(10);
+
+            // Вызов эффекта мигания у врага
+            enemy.HitFlash();
         }
         else
         {
-            Debug.Log("Враг не найден на этом объекте.");
+            // Создаём декаль только если это не Enemy
+            GameObject decal = Instantiate(bulletDecal, contact.point + contact.normal * 0.001f, Quaternion.LookRotation(contact.normal));
+            Destroy(decal, 5f);
+
+            Debug.Log($"Пуля попала в: {other.gameObject.name}");
         }
 
         Destroy(gameObject);

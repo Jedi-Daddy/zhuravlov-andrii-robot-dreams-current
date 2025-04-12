@@ -206,7 +206,7 @@ public class EnemyAI : MonoBehaviour
     public Transform player;
     public Transform firePoint;
     public GameObject fireballPrefab;
-    public GameObject coinPrefab; // Префаб монетки
+    public GameObject coinPrefab;
     public Image hpBarFill;
 
     [Header("Enemy Stats")]
@@ -218,10 +218,15 @@ public class EnemyAI : MonoBehaviour
     public float detectionRange = 10f;
     public float chaseExitDistance = 20f;
 
+    [Header("Events")]
+    public UnityEvent onDeath;
+
     private NavMeshAgent agent;
     private BTNode root;
 
-    public UnityEvent onDeath;
+    private Renderer enemyRenderer;
+    private Color originalColor;
+    private bool isFlashing = false;
 
     void Start()
     {
@@ -230,6 +235,10 @@ public class EnemyAI : MonoBehaviour
 
         if (hpBarFill != null)
             hpBarFill.fillAmount = 1f;
+
+        enemyRenderer = GetComponentInChildren<Renderer>();
+        if (enemyRenderer != null)
+            originalColor = enemyRenderer.material.color;
 
         Transform attackHand = transform.Find("AttackHand");
         if (player == null || firePoint == null || fireballPrefab == null || attackHand == null)
@@ -268,15 +277,16 @@ public class EnemyAI : MonoBehaviour
         if (hpBarFill != null)
             hpBarFill.fillAmount = (float)currentHP / maxHP;
 
+        HitFlash();
+
         if (currentHP <= 0)
             Die();
     }
 
     private void Die()
     {
-        onDeath?.Invoke();  // Вызываем событие
-
-        Destroy(gameObject); // Удаляем врага
+        onDeath?.Invoke();
+        Destroy(gameObject);
     }
 
     public void SpawnCoin()
@@ -286,6 +296,21 @@ public class EnemyAI : MonoBehaviour
             Vector3 spawnPosition = transform.position + Vector3.up * 0.2f;
             Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
         }
+    }
+
+    public void HitFlash()
+    {
+        if (!isFlashing && enemyRenderer != null)
+            StartCoroutine(HitEffect());
+    }
+
+    private IEnumerator HitEffect()
+    {
+        isFlashing = true;
+        enemyRenderer.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        enemyRenderer.material.color = originalColor;
+        isFlashing = false;
     }
 
     private void OnDrawGizmosSelected()
