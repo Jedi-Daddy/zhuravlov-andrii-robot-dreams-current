@@ -221,6 +221,9 @@ public class EnemyAI : MonoBehaviour
     [Header("Events")]
     public UnityEvent onDeath;
 
+    [Header("Анимация")]
+    private Animator animator;
+
     private NavMeshAgent agent;
     private BTNode root;
 
@@ -231,6 +234,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         currentHP = maxHP;
 
         if (hpBarFill != null)
@@ -266,7 +270,15 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         if (currentHP > 0)
+        {
             root.Execute();
+
+            // Проверяем скорость врага
+            if (animator != null)
+            {
+                animator.SetBool("isWalking", agent.velocity.magnitude > 0.1f);
+            }
+        }
     }
 
     public void TakeDamage(int damage)
