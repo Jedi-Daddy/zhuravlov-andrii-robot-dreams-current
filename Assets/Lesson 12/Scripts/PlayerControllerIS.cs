@@ -35,6 +35,7 @@ public class PlayerControllerIS : MonoBehaviour
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     private Transform cameraTransform;
+    private Animator animator;
 
     private InputAction moveAction;
     private InputAction lookAction;
@@ -68,6 +69,7 @@ public class PlayerControllerIS : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         jumpAction = playerInput.actions["Jump"];
         shootAction = playerInput.actions["Shoot"];
+        animator = GetComponent<Animator>();
 
         cameraTransform = Camera.main.transform;
 
@@ -91,8 +93,11 @@ public class PlayerControllerIS : MonoBehaviour
 
         if (blasterPistolTransform != null)
         {
+            
+
             originalPistolPosition = blasterPistolTransform.localPosition;
             originalPistolRotation = blasterPistolTransform.localRotation;
+            
             targetPistolPosition = originalPistolPosition;
             targetPistolRotation = originalPistolRotation;
         }
@@ -172,6 +177,7 @@ public class PlayerControllerIS : MonoBehaviour
 
         Vector2 input = moveAction.ReadValue<Vector2>();
         Vector3 move = new Vector3(input.x, 0, input.y);
+        animator.SetFloat("Speed", move.magnitude);
         move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
         move.y = 0f;
         controller.Move(move * Time.deltaTime * playerSpeed);
