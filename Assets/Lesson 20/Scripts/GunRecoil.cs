@@ -2,27 +2,32 @@ using UnityEngine;
 
 public class GunRecoil : MonoBehaviour
 {
-    public float recoilAmount = 0.1f; // Сила отдачи
-    public float recoilSpeed = 10f;   // Скорость восстановления
-    private Vector3 originalPosition; // Исходная позиция оружия
-    private Quaternion originalRotation; // Исходный поворот оружия
+    [SerializeField] private Transform recoilPoint; // Сюда ставим BlasterHolder
+    [SerializeField] private float recoilAmount = 0.1f;
+    [SerializeField] private float recoilRecoverySpeed = 10f;
+
+    private Vector3 originalPosition;
 
     private void Start()
     {
-        originalPosition = transform.localPosition;
-        originalRotation = transform.localRotation;
+        if (recoilPoint == null)
+        {
+            Debug.LogError("RecoilPoint не назначен в инспекторе!");
+            return;
+        }
+
+        originalPosition = recoilPoint.localPosition;
     }
 
     public void ApplyRecoil()
     {
-        // Отдача назад по Z
-        transform.localPosition -= new Vector3(0, 0, recoilAmount);
+        // Отдача строго по локальной оси назад
+        recoilPoint.localPosition -= new Vector3(0, 0, recoilAmount);
     }
 
     private void Update()
     {
-        // Плавно возвращаем позицию и поворот оружия
-        transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition, recoilSpeed * Time.deltaTime);
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, originalRotation, recoilSpeed * Time.deltaTime);
+        // Плавное возвращение в исходную позицию
+        recoilPoint.localPosition = Vector3.Lerp(recoilPoint.localPosition, originalPosition, recoilRecoverySpeed * Time.deltaTime);
     }
 }
