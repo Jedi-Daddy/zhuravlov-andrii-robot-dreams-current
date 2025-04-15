@@ -21,13 +21,21 @@ public class ExitMenu : MonoBehaviour
         exitPanel.SetActive(isPanelActive);
 
         if (isPanelActive)
+        {
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
         else
+        {
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     public void ExitToMenu()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         SceneManager.LoadScene("LastMenu");
     }
 
@@ -36,5 +44,6 @@ public class ExitMenu : MonoBehaviour
         isPanelActive = false;
         exitPanel.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
