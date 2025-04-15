@@ -1,41 +1,46 @@
 using UnityEngine;
-using UnityEngine.InputSystem; 
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
-    private PlayerInput playerInput; 
+    private PlayerInput playerInput;
+
+    [SerializeField] private GameObject exitPanel; // Панель подтверждения выхода
+    private bool isPanelActive = false;
 
     void Awake()
     {
-        playerInput = GetComponent<PlayerInput>(); 
+        playerInput = GetComponent<PlayerInput>();
     }
 
     void OnEnable()
     {
-        
-        playerInput.actions["Escape"].started += OnEscapePressed; 
+        playerInput.actions["Escape"].performed += OnEscapePressed;
     }
 
     void OnDisable()
     {
-        
-        playerInput.actions["Escape"].started -= OnEscapePressed;
+        playerInput.actions["Escape"].performed += OnEscapePressed;
     }
-
-    private void ResetGameState()
-    {
-        
-        PlayerPrefs.DeleteAll();
-    }
-
 
     private void OnEscapePressed(InputAction.CallbackContext context)
     {
-        Cursor.lockState = CursorLockMode.None;
-        
-        SceneManager.LoadScene("LastMenu");
-        ResetGameState(); 
+        isPanelActive = !isPanelActive;
+        exitPanel.SetActive(isPanelActive);
+
+        Cursor.lockState = isPanelActive ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
+    public void ExitToMenu()  
+    {
+        PlayerPrefs.DeleteAll();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LastMenu");
+    }
+
+    public void CloseExitPanel() 
+    {
+        isPanelActive = false;
+        exitPanel.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 }
