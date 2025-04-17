@@ -123,6 +123,8 @@ MonoBehaviour:
   bulletDecal: {fileID: 7274409290925267140, guid: 6a810ad889be2aa4bab8618bd8a4ff2f,
     type: 3}
   _damage: 10
+  trailEffect: {fileID: 1130945418854432, guid: 07277f9efe2374047bf57bdba847e02b,
+    type: 3}
 --- !u!54 &-2565135313464947645
 Rigidbody:
   m_ObjectHideFlags: 0

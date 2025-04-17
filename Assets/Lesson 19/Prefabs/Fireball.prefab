@@ -149,3 +149,5 @@ MonoBehaviour:
   damage: 30
   speed: 10
   lifetime: 5
+  trailEffect: {fileID: 1239156983776194, guid: 9bdee3723a4e52c4ca2af5bc5b56474a,
+    type: 3}

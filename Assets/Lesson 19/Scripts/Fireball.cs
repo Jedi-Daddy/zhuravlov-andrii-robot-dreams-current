@@ -5,11 +5,20 @@ public class Fireball : MonoBehaviour
     public int damage = 30;
     public float speed = 10f;
     public float lifetime = 5f;
+    public GameObject trailEffect; // ?? Сюда назначь Particle System префаб
+
+    private GameObject spawnedEffect;
 
     private void Start()
     {
-        // Уничтожить фаербол через заданное время, если он не столкнётся
         Destroy(gameObject, lifetime);
+
+        // Спавним партикл и направляем его в ту же сторону, что и фаербол
+        if (trailEffect != null)
+        {
+            spawnedEffect = Instantiate(trailEffect, transform.position, transform.rotation);
+            spawnedEffect.transform.SetParent(transform); // Привязываем к фаерболу
+        }
     }
 
     private void Update()
@@ -20,6 +29,13 @@ public class Fireball : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Удаляем партикл эффект
+        if (spawnedEffect != null)
+        {
+            spawnedEffect.transform.SetParent(null); // Отсоединяем перед удалением
+            Destroy(spawnedEffect, 2f); // Даём 2 секунды на "затухание" эффекта
+        }
+
         // Урон игроку
         PlayerControllerIS player = other.GetComponent<PlayerControllerIS>();
         if (player != null)
@@ -28,9 +44,7 @@ public class Fireball : MonoBehaviour
             Debug.Log("Фаербол попал в игрока и нанёс урон!");
         }
 
-        // Можно добавить эффекты столкновения, звук и т.д.
-
-        Destroy(gameObject); // Уничтожаем фаербол в любом случае после столкновения
+        // Удаляем фаербол
+        Destroy(gameObject);
     }
 }
-

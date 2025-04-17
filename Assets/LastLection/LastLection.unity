@@ -75117,8 +75117,7 @@ MonoBehaviour:
     type: 3}
   barrelEndTransform: {fileID: 3361509229218302875}
   bulletParent: {fileID: 380831908}
-  muzzleFlash: {fileID: 5577474268790413893, guid: 499edbcd61e1cc04d9c3eb232f8ed85d,
-    type: 3}
+  muzzleFlash: {fileID: 0}
   blasterPistolTransform: {fileID: 0}
   curHp: 100
   maxHp: 100
@@ -77295,6 +77294,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6355185262097389898}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6736283932230543534
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 100.183
+      objectReference: {fileID: 0}
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.198
+      objectReference: {fileID: 0}
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 100.854
+      objectReference: {fileID: 0}
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697723553635196287, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2682504030312119230, guid: e0330cd7a4f2ca447b9182d8f5ef4280,
+        type: 3}
+      propertyPath: m_Name
+      value: Bullet
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e0330cd7a4f2ca447b9182d8f5ef4280, type: 3}
 --- !u!1 &6774178514519742635
 GameObject:
   m_ObjectHideFlags: 0
@@ -78038,7 +78105,7 @@ MonoBehaviour:
   explosionLayers:
     serializedVersion: 2
     m_Bits: 257
-  explosionEffectPrefab: {fileID: 508108972835747082, guid: 9f0713ca463a20149a46fff73e3696ac,
+  explosionEffectPrefab: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc,
     type: 3}
   playerCamera: {fileID: 239262903}
 --- !u!1 &8985077482215281234
@@ -78193,5 +78260,6 @@ SceneRoots:
   - {fileID: 1725245688}
   - {fileID: 2081965913}
   - {fileID: 720565484}
+  - {fileID: 6736283932230543534}
   - {fileID: 1737715106}
   - {fileID: 1848902804}

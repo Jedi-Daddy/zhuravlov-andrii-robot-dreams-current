@@ -1,10 +1,11 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class BulletController : MonoBehaviour
 {
     [SerializeField] private GameObject bulletDecal;
     [SerializeField] private int _damage = 15;
+    [SerializeField] private GameObject trailEffect;
 
     private float speed = 30f;
     private float timeToDestroy = 3f;
@@ -15,6 +16,16 @@ public class BulletController : MonoBehaviour
     private void OnEnable()
     {
         Destroy(gameObject, timeToDestroy);
+
+        // Спавним трейл, если есть, и направляем его по вектору движения
+        if (trailEffect != null)
+        {
+            Vector3 direction = (target - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+            GameObject effect = Instantiate(trailEffect, transform.position, lookRotation);
+            effect.transform.SetParent(transform);
+        }
     }
 
     void Update()
@@ -31,26 +42,30 @@ public class BulletController : MonoBehaviour
         ContactPoint contact = other.GetContact(0);
 
         EnemyAI enemy = other.gameObject.GetComponentInParent<EnemyAI>();
-
         if (enemy != null)
         {
-            Debug.Log($"Попадание по врагу: {enemy.gameObject.name}, нанесен урон: {_damage}");
-
             enemy.TakeDamage(_damage);
             ScoreManager.Instance.AddScore(10);
-
-            // Вызов эффекта мигания у врага
-            enemy.HitFlash();
+            enemy.StartCoroutine(HitEffect(enemy));
         }
         else
         {
-            // Создаём декаль только если это не Enemy
             GameObject decal = Instantiate(bulletDecal, contact.point + contact.normal * 0.001f, Quaternion.LookRotation(contact.normal));
             Destroy(decal, 5f);
-
-            Debug.Log($"Пуля попала в: {other.gameObject.name}");
         }
 
         Destroy(gameObject);
+    }
+
+    private IEnumerator HitEffect(EnemyAI enemy)
+    {
+        Renderer rend = enemy.GetComponentInChildren<Renderer>();
+        if (rend != null)
+        {
+            Color originalColor = rend.material.color;
+            rend.material.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
+            rend.material.color = originalColor;
+        }
     }
 }
