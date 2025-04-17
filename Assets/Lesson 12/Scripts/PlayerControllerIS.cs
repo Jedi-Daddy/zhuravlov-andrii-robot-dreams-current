@@ -18,6 +18,8 @@ public class PlayerControllerIS : MonoBehaviour
 
     [SerializeField] private Transform blasterPistolTransform;
 
+    [SerializeField] private GameObject healEffectPrefab;
+
     public int curHp = 100;
     public int maxHp = 100;
     private bool isDead = false;
@@ -258,8 +260,21 @@ public class PlayerControllerIS : MonoBehaviour
     public void Heal(int amount)
     {
         curHp += amount;
-        if (curHp > maxHp) curHp = maxHp;
+        if (curHp > maxHp)
+            curHp = maxHp;
+
         UpdateHPUI();
+
+        // Запускаем эффект лечения
+        if (healEffectPrefab != null)
+        {
+            // Заспавним эффект чуть выше центра персонажа (например, на уровне груди)
+            Vector3 spawnPosition = transform.position + new Vector3(0, -0.5f, 0);
+            GameObject fx = Instantiate(healEffectPrefab, spawnPosition, Quaternion.identity);
+
+            fx.transform.SetParent(transform); // Следует за игроком
+            Destroy(fx, 2f); // Удалить через 2 секунды
+        }
     }
 
     private void Die()
