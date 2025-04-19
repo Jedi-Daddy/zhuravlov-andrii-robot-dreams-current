@@ -93,20 +93,27 @@ public class ShootNode : BTNode
 
     public override bool Execute()
     {
-        Vector3 direction = (player.position - enemy.position).normalized;
+        // Центр тела игрока — цель
+        Vector3 targetPoint = player.position + Vector3.up * (-0.5f);
+        Vector3 direction = (targetPoint - firePoint.position).normalized;
+
+        Debug.DrawRay(firePoint.position, direction * 5f, Color.red, 1f);
+
+        // Повернуть enemy и firePoint в сторону цели
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         enemy.rotation = Quaternion.Slerp(enemy.rotation, lookRotation, Time.deltaTime * 5f);
-        firePoint.rotation = Quaternion.LookRotation(direction);
+        firePoint.rotation = lookRotation;
 
         if (canShoot)
         {
-            GameObject fireball = GameObject.Instantiate(fireballPrefab, firePoint.position, firePoint.rotation);
+            GameObject fireball = GameObject.Instantiate(fireballPrefab, firePoint.position, Quaternion.LookRotation(direction));
             Rigidbody rb = fireball.GetComponent<Rigidbody>();
             rb.velocity = direction * fireballSpeed;
 
             canShoot = false;
             enemy.GetComponent<EnemyAI>().StartCoroutine(ResetShoot());
         }
+
         return true;
     }
 
