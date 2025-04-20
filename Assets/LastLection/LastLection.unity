@@ -70079,7 +70079,7 @@ MonoBehaviour:
   scoreText: {fileID: 1780855564}
   victoryPanel: {fileID: 1758782797}
   menuButton: {fileID: 1303654649}
-  scoreToWin: 300
+  scoreToWin: 1300
 --- !u!4 &2021504693
 Transform:
   m_ObjectHideFlags: 0
@@ -78164,7 +78164,7 @@ MonoBehaviour:
   explosionLayers:
     serializedVersion: 2
     m_Bits: 257
-  explosionEffectPrefab: {fileID: 1607639662943796, guid: a1a36200a3c61b34b9abfaed1373f4cc,
+  explosionEffectPrefab: {fileID: 1829163952570794, guid: f171ac3dbb620c44e81cd88ddee1cbbd,
     type: 3}
   playerCamera: {fileID: 239262903}
 --- !u!1 &8985077482215281234

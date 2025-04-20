@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316902a3fe9ad9e45881cf44bb70d2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinValue: 5
+  coinValue: 10
 --- !u!114 &6367391247449065884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,3 +132,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849e5c46d88c91c43b0328465c9fc9b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinValue: 1
