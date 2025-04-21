@@ -63,6 +63,30 @@ public class PlayerControllerIS : MonoBehaviour
 
     public static PlayerControllerIS Instance { get; private set; }
 
+    private enum PlayerAnimState
+    {
+        Idle,
+        Run
+    }
+
+    private PlayerAnimState currentAnimState = PlayerAnimState.Idle;
+
+    private void ChangeAnimState(PlayerAnimState newState)
+    {
+        if (currentAnimState == newState) return;
+        currentAnimState = newState;
+
+        switch (newState)
+        {
+            case PlayerAnimState.Idle:
+                animator.CrossFade("IdlePistol", 0.1f);
+                break;
+            case PlayerAnimState.Run:
+                animator.CrossFade("Run", 0.1f);
+                break;
+        }
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -179,7 +203,16 @@ public class PlayerControllerIS : MonoBehaviour
 
         Vector2 input = moveAction.ReadValue<Vector2>();
         Vector3 move = new Vector3(input.x, 0, input.y);
-        animator.SetFloat("Speed", move.magnitude);
+
+        // FSM-анимация
+        if (move.magnitude > 0.1f)
+        {
+            ChangeAnimState(PlayerAnimState.Run);
+        }
+        else
+        {
+            ChangeAnimState(PlayerAnimState.Idle);
+        }
         move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
         move.y = 0f;
         controller.Move(move * Time.deltaTime * playerSpeed);
