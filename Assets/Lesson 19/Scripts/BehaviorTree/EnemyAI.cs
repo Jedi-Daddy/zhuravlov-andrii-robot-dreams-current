@@ -283,7 +283,7 @@ public class EnemyAI : MonoBehaviour
             // Проверяем скорость врага
             if (animator != null)
             {
-                animator.SetBool("isWalking", agent.velocity.magnitude > 0.1f);
+                animator.CrossFade("Run", 0.1f);
             }
         }
     }

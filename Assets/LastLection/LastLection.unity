@@ -2472,7 +2472,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: c89768d4e19c1e54986a1de850f05527, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 1320739d744a6684db1e008413631385, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &62728065
 Transform:
@@ -2812,7 +2812,7 @@ Transform:
   m_GameObject: {fileID: 68319799}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.61, y: 0, z: 8}
+  m_LocalPosition: {x: -3.61, y: 0, z: 8.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10056,7 +10056,7 @@ Transform:
   m_GameObject: {fileID: 316970567}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.88, y: 0, z: 1.29}
+  m_LocalPosition: {x: 3.47, y: 0, z: -2.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25694,7 +25694,7 @@ Transform:
   m_GameObject: {fileID: 916329501}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34704,7 +34704,7 @@ Transform:
   m_GameObject: {fileID: 1234014535}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.06, y: 0, z: -13.93}
+  m_LocalPosition: {x: 18.06, y: 0, z: -13.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
