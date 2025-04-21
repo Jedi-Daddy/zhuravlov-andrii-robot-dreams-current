@@ -7754,7 +7754,7 @@ Transform:
   m_GameObject: {fileID: 239262902}
   serializedVersion: 2
   m_LocalRotation: {x: 0.028606143, y: 0.030526005, z: -0.0008739967, w: 0.99912417}
-  m_LocalPosition: {x: 111.4901, y: 9.3536005, z: 85.9921}
+  m_LocalPosition: {x: 111.47409, y: 2.1185992, z: 73.70212}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31853,7 +31853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e2931ab602e69b43a5a982a1d4a0d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exitPanel: {fileID: 0}
+  exitPanel: {fileID: 1136368706}
 --- !u!1 &1138750853
 GameObject:
   m_ObjectHideFlags: 0
@@ -69256,17 +69256,17 @@ PrefabInstance:
     - target: {fileID: 7832033601662994355, guid: a756c82d26d8d86479ab91ee42029312,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 111.4901
+      value: 111.47409
       objectReference: {fileID: 0}
     - target: {fileID: 7832033601662994355, guid: a756c82d26d8d86479ab91ee42029312,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.3536005
+      value: 2.1185992
       objectReference: {fileID: 0}
     - target: {fileID: 7832033601662994355, guid: a756c82d26d8d86479ab91ee42029312,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 85.9921
+      value: 73.70212
       objectReference: {fileID: 0}
     - target: {fileID: 7832033601662994355, guid: a756c82d26d8d86479ab91ee42029312,
         type: 3}
@@ -70390,17 +70390,17 @@ PrefabInstance:
     - target: {fileID: 7832033601662994355, guid: a756c82d26d8d86479ab91ee42029312,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 110.96562
+      value: 110.949615
       objectReference: {fileID: 0}
     - target: {fileID: 7832033601662994355, guid: a756c82d26d8d86479ab91ee42029312,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.088586
+      value: 1.8535852
       objectReference: {fileID: 0}
     - target: {fileID: 7832033601662994355, guid: a756c82d26d8d86479ab91ee42029312,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 88.016
+      value: 75.726
       objectReference: {fileID: 0}
     - target: {fileID: 7832033601662994355, guid: a756c82d26d8d86479ab91ee42029312,
         type: 3}
@@ -75123,16 +75123,16 @@ MonoBehaviour:
     type: 3}
   curHp: 100
   maxHp: 100
-  coins: 10
+  coins: 5
   coinsText: {fileID: 9249921}
   hpText: {fileID: 0}
   gameOverPanel: {fileID: 2083267102}
   mainMenuButton: {fileID: 278611526}
   hpBarFill: {fileID: 7199473450947568811}
-  positionalRecoilForce: 0.35
-  rotationalRecoilForceX: 5
-  recoilRecoverySpeed: 10
-  rotationalRecoverySpeed: 20
+  positionalRecoilForce: 0.2
+  rotationalRecoilForceX: 10
+  recoilRecoverySpeed: 5
+  rotationalRecoverySpeed: 15
   detectionRange: 15
   losePlayerDistance: 20
 --- !u!1 &1403123170956992086
@@ -78049,7 +78049,7 @@ Transform:
   m_GameObject: {fileID: 1763743394895777176}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 110.55, y: 8.411, z: 89.7}
+  m_LocalPosition: {x: 110.534, y: 1.176, z: 77.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
